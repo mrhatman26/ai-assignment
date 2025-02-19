@@ -1,17 +1,17 @@
 Use K-Nearest Neighbours on each bit of the dataset:
-    -Movie Age Rating -> User Rating A
+    -Movie Age Rating -> User Rating A (Model A)
         --Seperate all age ratings into a specific number:
             ---Approved = 0
             ---G = 1
             ---GP = 2
             ---etc.            
-    -Run Length -> User Rating B
+    -Run Length -> User Rating B (Model B)
         --Convert the run length to minutes.
-    -Genre -> User Rating C
+    -Genre -> User Rating C (Model C)
         --Seperate the genre for each movie!
         --Some movies have multiple genres seperated by a semi-colon.
         --Take the user rating of each genre and get the average rating.
-    -Release Month -> User Rating D
+    -Release Month -> User Rating D (Model D)
 
 Then, take Ratings A, B, C and D and get the average.
 This will represent the model's overall prediction for a new movie's user rating.

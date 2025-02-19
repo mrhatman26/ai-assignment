@@ -1,0 +1,5 @@
+1. Main. Handles everything.
+2. Setup. Setups and cleans the numpy tables.
+3. Create. Creates the four KNN models.
+4. Render. Renders the tables and models.
+5. App. Allows the models to be run through Python Flask to be used in a webapp.
