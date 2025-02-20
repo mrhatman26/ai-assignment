@@ -21,7 +21,7 @@ def clean_remove_unused(dataset):
         dataset.to_csv("Movie Dataset (Remove Unused Columns).csv", sep=",")
     return dataset
 
-def clean_normalise_boolean(dataset, column_name, split_type=None):
+def clean_normalise_boolean(dataset, column_name, split_type=None): #Modify this to work for release date as well.
     print("**Normalising " + str(column_name) + " column**")
     #Loop 1
     try:
@@ -51,7 +51,7 @@ def clean_normalise_boolean(dataset, column_name, split_type=None):
         print("Adding new columns for each unique value...", end="")
         for value in unique_vals:
             if value != "" and value != " ":
-                dataset[column_name + str(value)] = False
+                dataset[column_name + "_" + str(value)] = False
         print("Done.")
     except Exception as e:
         error_exit(e)
@@ -65,9 +65,9 @@ def clean_normalise_boolean(dataset, column_name, split_type=None):
             if split_type is not None:
                 for value in rows.split(split_type):
                     if value != "" and value != " ":
-                        dataset.loc[y, column_name + str(value).lower()] = True
+                        dataset.loc[y, column_name + "_" + str(value).lower()] = True
             else:
-                dataset.loc[y, column_name + str(row).lower] = True
+                dataset.loc[y, column_name + "_" + str(row).lower] = True
             y += 1
         print("Done.")
     except Exception as e:
@@ -80,7 +80,7 @@ def clean_normalise_boolean(dataset, column_name, split_type=None):
             col_no = 0
             has_value = False
             for column in row:
-                if column_name in dataset.columns[col_no]:
+                if column_name + "_" in dataset.columns[col_no]:
                     if column == True:
                         has_value = True
                 col_no += 1
