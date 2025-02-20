@@ -1,6 +1,6 @@
 import tkinter as t
 import random as r
-import sys, os, platform
+import sys, os, platform, traceback
 from tkinter import filedialog as f
 from tkinter import messagebox
 
@@ -121,5 +121,6 @@ def show_dataset(dataset):
 
 def error_exit(exception):
     print("Failed.\nError: " + str(exception))
+    print(str(traceback.format_exc()))
     pause()
     sys.exit()

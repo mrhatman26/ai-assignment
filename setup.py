@@ -18,7 +18,7 @@ def clean_remove_unused(dataset):
     print("Done.")
     #Finally, offer the option to save the dataset to the user.
     if ask_question("Save Dataset?", "Would you like to save the dataset as it currently is to a file?") is True:
-        dataset.to_csv("Movie Dataset (Remove Unused Columns).csv", sep=",")
+        dataset.to_csv("./saved_data/Movie Dataset (Remove Unused Columns).csv", sep=",")
     return dataset
 
 def clean_normalise_boolean(dataset, column_name, split_type=None): #Modify this to work for release date as well.
@@ -67,7 +67,7 @@ def clean_normalise_boolean(dataset, column_name, split_type=None): #Modify this
                     if value != "" and value != " ":
                         dataset.loc[y, column_name + "_" + str(value).lower()] = True
             else:
-                dataset.loc[y, column_name + "_" + str(row).lower] = True
+                dataset.loc[y, column_name + "_" + str(row).lower()] = True
             y += 1
         print("Done.")
     except Exception as e:
@@ -98,5 +98,25 @@ def clean_normalise_boolean(dataset, column_name, split_type=None): #Modify this
         error_exit(e)
     #After this, ask the user if they would like the normalised dataset to be saved.
     if ask_question("Save Dataset?", "Would you like to save the dataset as it currently is to a file?") is True:
-        dataset.to_csv("Movie Dataset (Normalise " + column_name + ").csv", sep=",")
+        dataset.to_csv("./saved_data/Movie Dataset (Normalise " + column_name + ").csv", sep=",")
+    return dataset
+
+def clean_normalise_months(dataset):
+    print("**Normalising release_date column**")
+    months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
+    try:
+        print("Converting release_date values to numbers...", end="")
+        y = 0
+        for rows in dataset["release_date"]:
+            values = rows.lower().split(" ")
+            for month in months:
+                if month in values:
+                    index = values.index(month)
+                    dataset.loc[y, "release_date"] = months.index(values[index])
+            y += 1
+        print("Done.")
+    except Exception as e:
+        error_exit(e)
+    if ask_question("Save Dataset?", "Would you like to save the dataset as it currently is to a file?") is True:
+        dataset.to_csv("./saved_data/Movie Dataset (Normalise months).csv", sep=",")
     return dataset
