@@ -16,69 +16,87 @@ def clean_remove_unused(dataset):
     except Exception as e:
         error_exit(e)
     print("Done.")
+    #Finally, offer the option to save the dataset to the user.
     if ask_question("Save Dataset?", "Would you like to save the dataset as it currently is to a file?") is True:
-        dataset.to_csv("Movie Dataset (Edit 1).csv", sep=",")
+        dataset.to_csv("Movie Dataset (Remove Unused Columns).csv", sep=",")
     return dataset
 
-def clean_normalise(dataset):
-    pd.options.mode.chained_assignment = None 
-    print("**Normalising genres column**")
+def clean_normalise_boolean(dataset, column_name, split_type=None):
+    print("**Normalising " + str(column_name) + " column**")
+    #Loop 1
     try:
-        #First get all the unique genres.
-        unique_genres = []
-        print("Getting unique genres...", end="")
-        for genres in dataset["genres"]:
-            for genre in genres.split("; "):
-                genre = genre.lower()
-                if genre not in unique_genres and genre != "" and genre != " ":
-                    unique_genres.append(genre)
-        print("Done.\nDetected genres are:")
-        for item in unique_genres:
+        #First get all unique values of the specified column.
+        unique_vals = []
+        print("Getting unique values of column...", end="")
+        for row in dataset[column_name]:
+            if split_type is not None:
+                for value in row.split(split_type):
+                    value = value.lower()
+                    if value not in unique_vals and value != "" and value != " ":
+                        unique_vals.append(value.lower())
+            else:
+                row = row.lower()
+                if row not in unique_vals and row != "" and row != " ":
+                    unique_vals.append(row.lower())
+        print("Done.\nUnique values detected are:")
+        for item in unique_vals:
             print("'" + item + "'")
         pause()
     except Exception as e:
         error_exit(e)
+    #Loop 2
+    #Consider doing this stage in loop 1?
     try:
-        print("Adding new columns for each unique genre...", end="")
-        for genre in unique_genres:
-            genre = str(genre).lower()
-            if genre != "" and genre != " ":
-                dataset["genre_" + str(genre)] = False #Create a new column for each genre on each row and set it to equal
+        #Then, create new columns from those unique values.
+        print("Adding new columns for each unique value...", end="")
+        for value in unique_vals:
+            if value != "" and value != " ":
+                dataset[column_name + str(value)] = False
         print("Done.")
     except Exception as e:
         error_exit(e)
+    #Loop 3
     try:
-        print("Setting genre columns to True based off of genres column..." , end="")
+        #Then, if a row has that unique value, set its corresponding column to True.
+        #E.G: If a movie has an age rating of PG, set that row's PG column to True.
+        print("Setting unique columns to True based off of original column values...", end="")
         y = 0
-        for genres in dataset["genres"]:
-            for genre in genres.split("; "):
-                if genre != "" and genre != " ":
-                    dataset.loc[y, "genre_" + str(genre).lower()] = True
+        for rows in dataset[column_name]:
+            if split_type is not None:
+                for value in rows.split(split_type):
+                    if value != "" and value != " ":
+                        dataset.loc[y, column_name + str(value).lower()] = True
+            else:
+                dataset.loc[y, column_name + str(row).lower] = True
             y += 1
         print("Done.")
     except Exception as e:
         error_exit(e)
+    #Loop 4
     try:
-        print("Checking all rows have at least ONE genre...", end="")
+        #Then make sure at least one of the created columns is True for each row.
+        print("Checking all rows have at least one of the new columns set to True...", end="")
         for index, row in dataset.iterrows():
             col_no = 0
-            has_genre = False
+            has_value = False
             for column in row:
-                if "genre_" in dataset.columns[col_no]:
+                if column_name in dataset.columns[col_no]:
                     if column == True:
-                        has_genre = True
+                        has_value = True
                 col_no += 1
-            if has_genre is False:
-                raise Exception("One or more rows of the dataset have no genres.")
+            if has_value is False:
+                raise Exception("One or more rows have no True values when normalising column " + column_name)
         print("Done.")
     except Exception as e:
         error_exit(e)
     try:
-        print("Removing genres column...", end="")
-        dataset = dataset.drop(["genres"], axis=1)
+        #Finally, remove the specified column as it will no longer be needed.
+        print("Removing " + column_name + " column...", end="")
+        dataset = dataset.drop([column_name], axis=1)
         print("Done.")
     except Exception as e:
         error_exit(e)
+    #After this, ask the user if they would like the normalised dataset to be saved.
     if ask_question("Save Dataset?", "Would you like to save the dataset as it currently is to a file?") is True:
-        dataset.to_csv("Movie Dataset (Edit 2).csv", sep=",")
-    show_dataset(dataset)
+        dataset.to_csv("Movie Dataset (Normalise " + column_name + ").csv", sep=",")
+    return dataset

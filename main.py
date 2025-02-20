@@ -14,4 +14,4 @@ except Exception as e:
 print("Done")
 show_dataset(movie_dataset)
 movie_dataset = clean_remove_unused(movie_dataset)
-clean_normalise(movie_dataset)
+movie_dataset = clean_normalise_boolean(movie_dataset, "genres", "; ")
