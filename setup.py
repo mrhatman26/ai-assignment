@@ -25,7 +25,7 @@ def clean_remove_unused(dataset):
         print("Failed.")
     return dataset
 
-def clean_normalise_boolean(dataset, column_name, split_type=None): #Modify this to work for release date as well.
+def clean_normalise_boolean(dataset, column_name, split_type=None):
     print("\n**Normalising " + str(column_name) + " column**")
     #Loop 1
     try:
@@ -99,7 +99,7 @@ def clean_normalise_boolean(dataset, column_name, split_type=None): #Modify this
         print("Done.")
     except Exception as e:
         error_exit(e)
-    #After this, ask the user if they would like the normalised dataset to be saved.
+    #After this, save the dataset.
     try:
         print("Saving modified dataset...", end="")
         dataset.to_csv("./saved_data/Movie Dataset (Normalise " + column_name + ").csv", sep=",")
@@ -110,21 +110,26 @@ def clean_normalise_boolean(dataset, column_name, split_type=None): #Modify this
 
 def clean_normalise_months(dataset):
     print("\n**Normalising release_date column**")
+    #The months of the year are known already, so to avoid an unnecessary loop, they are defined in this list for the purpose of indexing.
     months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
     try:
         print("Converting release_date values to numbers...", end="")
         y = 0
         for rows in dataset["release_date"]:
-            values = rows.lower().split(" ")
+            values = rows.lower().split(" ") #Split the row into a list
             for month in months:
+                #If one of the values of this list are in the months list, that means it represents the month.
                 if month in values:
                     index = values.index(month)
-                    dataset.loc[y, "release_date"] = months.index(values[index])
+                    #So get the index of that month in the split row list.
+                    dataset.loc[y, "release_date"] = months.index(values[index]) #And use that index to get the index of the row month from the list of months.
+                    #Sorry if that is confusing, I'm not sure how to better describe it.
             y += 1
         print("Done.")
     except Exception as e:
         error_exit(e)
     try:
+        #After this, save the dataset.
         print("Saving modified dataset...", end="")
         dataset.to_csv("./saved_data/Movie Dataset (Normalise months).csv", sep=",")
         print("Done.")
@@ -176,6 +181,7 @@ def clean_normalise_runtime(dataset):
     except Exception as e:
         error_exit(e)
     try:
+        #After this, save the dataset.
         print("Saving modified dataset...", end="")
         dataset.to_csv("./saved_data/Movie Dataset (Normalise runtime).csv", sep=",")
         print("Done.")
