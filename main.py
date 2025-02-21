@@ -17,4 +17,4 @@ movie_dataset = clean_remove_unused(movie_dataset)
 movie_dataset = clean_normalise_boolean(movie_dataset, "movie_rated") #Normalise age rating column
 movie_dataset = clean_normalise_months(movie_dataset) #Normalise runtime length column.
 movie_dataset = clean_normalise_boolean(movie_dataset, "genres", "; ") #Normalise genres column
-#movie_dataset = ???? #Normalise release date column.
+movie_dataset = clean_normalise_runtime(movie_dataset) #Normalise release date column.

@@ -26,7 +26,7 @@ def clean_remove_unused(dataset):
     return dataset
 
 def clean_normalise_boolean(dataset, column_name, split_type=None): #Modify this to work for release date as well.
-    print("**Normalising " + str(column_name) + " column**")
+    print("\n**Normalising " + str(column_name) + " column**")
     #Loop 1
     try:
         #First get all unique values of the specified column.
@@ -109,7 +109,7 @@ def clean_normalise_boolean(dataset, column_name, split_type=None): #Modify this
     return dataset
 
 def clean_normalise_months(dataset):
-    print("**Normalising release_date column**")
+    print("\n**Normalising release_date column**")
     months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
     try:
         print("Converting release_date values to numbers...", end="")
@@ -127,6 +127,57 @@ def clean_normalise_months(dataset):
     try:
         print("Saving modified dataset...", end="")
         dataset.to_csv("./saved_data/Movie Dataset (Normalise months).csv", sep=",")
+        print("Done.")
+    except Exception as e:
+        print("Failed.")
+    return dataset
+
+def clean_normalise_runtime(dataset):
+    print("\n**Normalising run_length column**")
+    try:
+        print("Converting run_length from hours and minutes to minutes...", end="\n")
+        y = 0
+        for row in dataset["run_length"]:
+            print(row)
+            row = row.split(" ")
+            hours = 0
+            minutes = 0
+            #Get minutes and seonds from the row. Annoyingly, these values contain the strings "h" and "min" which need to be replaced.
+            #Also, some movies have their runtime as hours only, no minutes.
+            if len(row) == 1:
+                if "h" in row[0]:
+                    hours = row[0].replace("h", "")
+                else:
+                    minutes = row[0].replace("min", "")
+            else:
+                if "h" in row[0]:
+                    hours = row[0].replace("h", "")
+                    minutes = row[1].replace("min", "")
+                else:
+                    minutes = row[0].replace("min", "")
+                    hours = row[1].replace("h", "")
+            #Check hours and minutes can be converted to integers. Raise exception if they cannot.
+            if str_to_int_test(hours) is True:
+                hours = int(hours)
+            else:
+                raise Exception("Cannot normalise movie hours as they are a string (not a int) equal to '" + str(hours) + "' that is of type " + str(type(hours)))
+            if str_to_int_test(minutes) is True:
+                minutes = int(minutes)
+            else:
+                raise Exception("Cannot normalise movie minutes as they are a string (not an int) equal to '" + str(minutes) + "' that is of type " + str(type(hours)))
+            #Convert movie time to minutes only by adding 60 minutes for each hour.
+            while hours > 0:
+                minutes += 60
+                hours -= 1
+            #Save the minutes to the current row.
+            dataset.loc[y, "run_length"] = minutes
+            y += 1
+        print("Done.")
+    except Exception as e:
+        error_exit(e)
+    try:
+        print("Saving modified dataset...", end="")
+        dataset.to_csv("./saved_data/Movie Dataset (Normalise runtime).csv", sep=",")
         print("Done.")
     except Exception as e:
         print("Failed.")

@@ -10,9 +10,11 @@ def pause():
 def str_to_int_test(text):
     if type(text) == str:
         try:
-            return int(text)
+            return True
         except:
             return False
+    elif type(text) == int:
+        return True
     else:
         return False
 
