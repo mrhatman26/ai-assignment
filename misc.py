@@ -110,17 +110,6 @@ def get_os_clear():
         clear = lambda: os.system('cls')
     return clear
 
-def show_dataset(dataset):
-    '''if ask_question("Describe?", "Would you like the dataset to be described?") is True:
-        print("Dataset Description:\n" + str(dataset.describe()))
-        pause()
-        print("Dataset Datatypes:\n" + str(dataset.dtypes))
-        pause()
-    if ask_question("Show Dataset?", "Would you like to print the movies dataset?") is True:
-        print(str(dataset.head(len(dataset.index))))
-        pause()'''
-    pass
-
 def error_exit(exception):
     print("Failed.\nError: " + str(exception))
     print(str(traceback.format_exc()))
