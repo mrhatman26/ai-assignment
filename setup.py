@@ -16,9 +16,13 @@ def clean_remove_unused(dataset):
     except Exception as e:
         error_exit(e)
     print("Done.")
-    #Finally, offer the option to save the dataset to the user.
-    if ask_question("Save Dataset?", "Would you like to save the dataset as it currently is to a file?") is True:
+    #Finally, save the modified dataset
+    try:
+        print("Saving modified dataset...", end="")
         dataset.to_csv("./saved_data/Movie Dataset (Remove Unused Columns).csv", sep=",")
+        print("Done.")
+    except Exception as e:
+        print("Failed.")
     return dataset
 
 def clean_normalise_boolean(dataset, column_name, split_type=None): #Modify this to work for release date as well.
@@ -41,7 +45,6 @@ def clean_normalise_boolean(dataset, column_name, split_type=None): #Modify this
         print("Done.\nUnique values detected are:")
         for item in unique_vals:
             print("'" + item + "'")
-        pause()
     except Exception as e:
         error_exit(e)
     #Loop 2
@@ -97,8 +100,12 @@ def clean_normalise_boolean(dataset, column_name, split_type=None): #Modify this
     except Exception as e:
         error_exit(e)
     #After this, ask the user if they would like the normalised dataset to be saved.
-    if ask_question("Save Dataset?", "Would you like to save the dataset as it currently is to a file?") is True:
+    try:
+        print("Saving modified dataset...", end="")
         dataset.to_csv("./saved_data/Movie Dataset (Normalise " + column_name + ").csv", sep=",")
+        print("Done.")
+    except Exception as e:
+        print("Failed.")
     return dataset
 
 def clean_normalise_months(dataset):
@@ -117,6 +124,10 @@ def clean_normalise_months(dataset):
         print("Done.")
     except Exception as e:
         error_exit(e)
-    if ask_question("Save Dataset?", "Would you like to save the dataset as it currently is to a file?") is True:
+    try:
+        print("Saving modified dataset...", end="")
         dataset.to_csv("./saved_data/Movie Dataset (Normalise months).csv", sep=",")
+        print("Done.")
+    except Exception as e:
+        print("Failed.")
     return dataset
