@@ -12,9 +12,9 @@ try:
 except Exception as e:
     error_exit(e)
 print("Done")
-show_dataset(movie_dataset)
+#Clean and normalise the dataset.
 movie_dataset = clean_remove_unused(movie_dataset)
-movie_dataset = clean_normalise_boolean(movie_dataset, "movie_rated") #Normalise age rating column
-movie_dataset = clean_normalise_months(movie_dataset) #Normalise runtime length column.
-movie_dataset = clean_normalise_boolean(movie_dataset, "genres", "; ") #Normalise genres column
-movie_dataset = clean_normalise_runtime(movie_dataset) #Normalise release date column.
+movie_dataset = clean_normalise_boolean(movie_dataset, "movie_rated") #Normalise age rating column as Boolean values
+movie_dataset = clean_normalise_months(movie_dataset) #Normalise runtime length column as integers.
+movie_dataset = clean_normalise_boolean(movie_dataset, "genres", "; ") #Normalise genres column as Boolean values.
+movie_dataset = clean_normalise_runtime(movie_dataset) #Normalise release date column as integers.
