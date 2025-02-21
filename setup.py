@@ -25,6 +25,17 @@ def clean_remove_unused(dataset):
         print("Failed.")
     return dataset
 
+def clean_remove_other_columns(dataset, save_column):
+    columns_to_remove = ["movie_rated", "run_length", "genres", "release_date"]
+    try:
+        print("Dropping columns from other datasets...", end="")
+        columns_to_remove.pop(columns_to_remove.index(save_column))
+        dataset = dataset.drop(columns_to_remove, axis=1)
+        print("Done.")
+    except Exception as e:
+        error_exit(e)
+    return dataset
+
 def clean_normalise_boolean(dataset, column_name, split_type=None):
     print("\n**Normalising " + str(column_name) + " column**")
     #Loop 1
@@ -110,6 +121,7 @@ def clean_normalise_boolean(dataset, column_name, split_type=None):
 
 def clean_normalise_months(dataset):
     print("\n**Normalising release_date column**")
+    dataset.to_csv("./saved_data/Movie Dataset (Normalise months).csv", sep=",")
     #The months of the year are known already, so to avoid an unnecessary loop, they are defined in this list for the purpose of indexing.
     months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
     try:

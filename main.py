@@ -8,13 +8,19 @@ pd.set_option('display.max_rows', None) #Allows for ALL rows to be printed.
 #Load CSV file using Pandas.
 print("Loading dataset...", end="")
 try:
-    movie_dataset = pd.read_csv("IMDb Movies Dataset.csv")
+    original_dataset = pd.read_csv("IMDb Movies Dataset.csv")
 except Exception as e:
     error_exit(e)
 print("Done")
-#Clean and normalise the dataset.
-movie_dataset = clean_remove_unused(movie_dataset)
-movie_dataset = clean_normalise_boolean(movie_dataset, "movie_rated") #Normalise age rating column as Boolean values
-movie_dataset = clean_normalise_months(movie_dataset) #Normalise runtime length column as integers.
-movie_dataset = clean_normalise_boolean(movie_dataset, "genres", "; ") #Normalise genres column as Boolean values.
-movie_dataset = clean_normalise_runtime(movie_dataset) #Normalise release date column as integers.
+#Clean dataset and split into four datasets.
+cleaned_dataset = clean_remove_unused(original_dataset)
+age_rating_dataset = clean_remove_other_columns(cleaned_dataset, "movie_rated")
+runtime_dataset = clean_remove_other_columns(cleaned_dataset, "run_length")
+genres_dataset = clean_remove_other_columns(cleaned_dataset, "genres")
+date_dataset = clean_remove_other_columns(cleaned_dataset, "release_date")
+#Normalise the four datasets.
+age_rating_dataset = clean_normalise_boolean(age_rating_dataset, "movie_rated") #Normalise age rating column as Boolean values
+runtime_dataset =  clean_normalise_runtime(runtime_dataset)#Normalise runtime length column as integers.
+genres_dataset = clean_normalise_boolean(genres_dataset, "genres", "; ") #Normalise genres column as Boolean values.
+date_dataset = clean_normalise_months(date_dataset) #Normalise release date column as integers.
+#Create the models from the dataset.
