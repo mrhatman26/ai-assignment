@@ -121,7 +121,6 @@ def clean_normalise_boolean(dataset, column_name, split_type=None):
 
 def clean_normalise_months(dataset):
     print("\n**Normalising release_date column**")
-    dataset.to_csv("./saved_data/Movie Dataset (Normalise months).csv", sep=",")
     #The months of the year are known already, so to avoid an unnecessary loop, they are defined in this list for the purpose of indexing.
     months = ["january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"]
     try:
