@@ -59,64 +59,43 @@ def clean_normalise_boolean(dataset, column_name, split_type=None):
     except Exception as e:
         error_exit(e)
     #Loop 2
-    #Consider doing this stage in loop 1?
     try:
-        #Then, create new columns from those unique values.
-        print("Adding new columns for each unique value...", end="")
-        for value in unique_vals:
-            if value != "" and value != " ":
-                dataset[column_name + "_" + str(value)] = False
-        print("Done.")
-    except Exception as e:
-        error_exit(e)
-    #Loop 3
-    try:
-        #Then, if a row has that unique value, set its corresponding column to True.
-        #E.G: If a movie has an age rating of PG, set that row's PG column to True.
-        print("Setting unique columns to True based off of original column values...", end="")
+        #print("Changing values to boolean...", end="")
         y = 0
-        for rows in dataset[column_name]:
+        for row in dataset[column_name]:
+            row = row.lower()
+            bool_list = create_ditto_list(len(unique_vals), False)
             if split_type is not None:
-                for value in rows.split(split_type):
-                    if value != "" and value != " ":
-                        dataset.loc[y, column_name + "_" + str(value).lower()] = True
+                for value in row.split(split_type):
+                    if value in unique_vals and value != "" and value != " ":
+                        bool_list[unique_vals.index(value)] = True
             else:
-                dataset.loc[y, column_name + "_" + str(row).lower()] = True
+                if row in unique_vals and row != "" and row != " ":
+                    bool_list[unique_vals.index(row)] = True
+            #Make sure at least one of the values is True.
+            if True not in bool_list:
+                raise Exception("One or more rows have no True values when normalising column " + column_name)
+            else:
+                dataset.loc[y, column_name] = str(bool_list)
             y += 1
         print("Done.")
     except Exception as e:
         error_exit(e)
-    #Loop 4
-    try:
-        #Then make sure at least one of the created columns is True for each row.
-        print("Checking all rows have at least one of the new columns set to True...", end="")
-        for index, row in dataset.iterrows():
-            col_no = 0
-            has_value = False
-            for column in row:
-                if column_name + "_" in dataset.columns[col_no]:
-                    if column == True:
-                        has_value = True
-                col_no += 1
-            if has_value is False:
-                raise Exception("One or more rows have no True values when normalising column " + column_name)
-        print("Done.")
-    except Exception as e:
-        error_exit(e)
-    try:
-        #Finally, remove the specified column as it will no longer be needed.
-        print("Removing " + column_name + " column...", end="")
-        dataset = dataset.drop([column_name], axis=1)
-        print("Done.")
-    except Exception as e:
-        error_exit(e)
-    #After this, save the dataset.
     try:
         print("Saving modified dataset...", end="")
         dataset.to_csv("./saved_data/Movie Dataset (Normalise " + column_name + ").csv", sep=",")
         print("Done.")
     except Exception as e:
         print("Failed.")
+    try:
+        print("Saving unique value list to file...", end="")
+        unique_vals_file = open("./saved_data/" + column_name + "_unique_vals.txt", "w")
+        for item in unique_vals:
+            unique_vals_file.write(item + "\n")
+        unique_vals_file.close()
+        print("Done.")
+    except Exception as e:
+        error_exit(e)
     return dataset
 
 def clean_normalise_months(dataset):
@@ -154,7 +133,6 @@ def clean_normalise_runtime(dataset):
         print("Converting run_length from hours and minutes to minutes...", end="\n")
         y = 0
         for row in dataset["run_length"]:
-            print(row)
             row = row.split(" ")
             hours = 0
             minutes = 0

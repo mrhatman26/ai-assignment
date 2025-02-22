@@ -115,3 +115,11 @@ def error_exit(exception):
     print(str(traceback.format_exc()))
     pause()
     sys.exit()
+
+def create_ditto_list(length, value_to_repeat):
+    new_list = []
+    index = 0
+    while index < length:
+        new_list.append(value_to_repeat)
+        index += 1
+    return new_list
