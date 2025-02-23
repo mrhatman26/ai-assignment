@@ -23,6 +23,7 @@ def clean_remove_unused(dataset):
         print("Done.")
     except Exception as e:
         print("Failed.")
+    dataset = dataset.reset_index(drop=True)
     return dataset
 
 def clean_remove_other_columns(dataset, save_column):
@@ -34,6 +35,7 @@ def clean_remove_other_columns(dataset, save_column):
         print("Done.")
     except Exception as e:
         error_exit(e)
+    dataset = dataset.reset_index(drop=True)
     return dataset
 
 def clean_normalise_boolean(dataset, column_name, split_type=None):
@@ -96,6 +98,7 @@ def clean_normalise_boolean(dataset, column_name, split_type=None):
         print("Done.")
     except Exception as e:
         error_exit(e)
+    dataset = dataset.reset_index(drop=True)
     return dataset
 
 def clean_normalise_months(dataset):
@@ -125,6 +128,7 @@ def clean_normalise_months(dataset):
         print("Done.")
     except Exception as e:
         print("Failed.")
+    dataset = dataset.reset_index(drop=True)
     return dataset
 
 def clean_normalise_runtime(dataset):
@@ -176,4 +180,5 @@ def clean_normalise_runtime(dataset):
         print("Done.")
     except Exception as e:
         print("Failed.")
+    dataset = dataset.reset_index(drop=True)
     return dataset
