@@ -1,6 +1,7 @@
 import pandas as pd
 import sys
 from setup import *
+from create import KNNCreator
 from misc import *
 pd.options.mode.chained_assignment = None 
 pd.set_option('display.max_columns', None) #Allows for ALL columns to be printed.
@@ -24,3 +25,7 @@ runtime_dataset =  clean_normalise_runtime(runtime_dataset)#Normalise runtime le
 genres_dataset = clean_normalise_boolean(genres_dataset, "genres", "; ") #Normalise genres column as Boolean values.
 date_dataset = clean_normalise_months(date_dataset) #Normalise release date column as integers.
 #Create the models from the dataset.
+KNNCreator(age_rating_dataset, "movie_rated")
+KNNCreator(runtime_dataset, "run_length")
+KNNCreator(genres_dataset, "genres")
+KNNCreator(date_dataset, "release_date")
