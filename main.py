@@ -25,6 +25,7 @@ runtime_dataset =  clean_normalise_runtime(runtime_dataset)#Normalise runtime le
 genres_dataset = clean_normalise_boolean(genres_dataset, "genres", "; ") #Normalise genres column as Boolean values.
 date_dataset = clean_normalise_months(date_dataset) #Normalise release date column as integers.
 #Create the models from the dataset.
+print("\n**Creating KNN Models**")
 KNNCreator(age_rating_dataset, "movie_rated")
 KNNCreator(runtime_dataset, "run_length")
 KNNCreator(genres_dataset, "genres")

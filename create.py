@@ -12,15 +12,30 @@ from misc import *
 class KNNCreator():
     dataset = None
     dataset_name = ""
+    dataset_map = {}
     x, y, x_train, y_train, x_test, y_test = None, None, None, None, None, None
     def __init__(self, dataset, dataset_name):
         try:
             print("Setting up KNN model for " + dataset_name + "...", end="")
             self.dataset = dataset
             self.dataset_name = dataset_name
+            #First, create a map of the dataset from the text file generated in setup.py ("column_unique_vals.txt.txt"). 
+            #If the file exists, then it doesn't need a map.
+            try:
+                index = 0
+                for line in open("./saved_data/" + dataset_name + "_unique_vals.txt", "r"):
+                    self.dataset_map[line.replace("\n", "")] = index
+                    index += 1
+            except:
+                self.dataset_map = None
+            if self.dataset_map is not None:
+                print("Mapping for " + self.dataset_name + " is:\n")
+                for key, value in self.dataset_map.items():
+                    print(str(key) + ": " + str(value))
+            print("\n")
             #Setting the selected column as X as in the x axis of a graph.
             #movie_rated is dropped otherwise it'd also be apart of the X axis which wouldn't make sense.
-            self.x = dataset[self.dataset_name].drop(columns="movie_rated")
+            self.x = dataset[self.dataset_name].drop(columns="rating")
             #Ditto, but movie rated is set to the Y axis and the selected column is dropped instead.
             self.y = dataset["rating"].drop(columns=self.dataset_name)
             #Setting up the training data. Here, 30% of the data becomes training data while the rest is test data.
@@ -35,5 +50,5 @@ class KNNCreator():
             print("Done.")
             print(dataset_name + " x_train shape is " + str(self.x_train.shape) + "\ny_train shape is " + str(self.y_train.shape))
             print(dataset_name + " x_test shape is " + str(self.x_test.shape) + "\ny_test shape is " + str(self.y_test.shape))
-        except Exception as e: ######################ToDo: Must convert lists in data to arrays as pandas annoying won't accept them in any way other than as a string.
+        except Exception as e:
             error_exit(e)
