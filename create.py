@@ -22,7 +22,7 @@ class KNNCreator():
             #movie_rated is dropped otherwise it'd also be apart of the X axis which wouldn't make sense.
             self.x = dataset[self.dataset_name].drop(columns="movie_rated")
             #Ditto, but movie rated is set to the Y axis and the selected column is dropped instead.
-            self.y = dataset["movie_rated"].drop(columns=self.dataset_name)
+            self.y = dataset["rating"].drop(columns=self.dataset_name)
             #Setting up the training data. Here, 30% of the data becomes training data while the rest is test data.
             #Training data is like putting a label on a banana saying that it is a banana and then telling someone, "This is a banana".
             #Test data meanwhile, does not have that label. It's like asking someone, "what is this yellow object?" and hoping they say "banana".
@@ -35,6 +35,5 @@ class KNNCreator():
             print("Done.")
             print(dataset_name + " x_train shape is " + str(self.x_train.shape) + "\ny_train shape is " + str(self.y_train.shape))
             print(dataset_name + " x_test shape is " + str(self.x_test.shape) + "\ny_test shape is " + str(self.y_test.shape))
-            pause()
         except Exception as e: ######################ToDo: Must convert lists in data to arrays as pandas annoying won't accept them in any way other than as a string.
             error_exit(e)

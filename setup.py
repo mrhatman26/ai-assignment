@@ -77,7 +77,8 @@ def clean_normalise_boolean(dataset, column_name, split_type=None):
             if True not in bool_list:
                 raise Exception("One or more rows have no True values when normalising column " + column_name)
             else:
-                dataset.loc[y, column_name] = str(bool_list)
+                dataset[column_name] = dataset[column_name].astype(object)
+                dataset.at[y, column_name] = bool_list
             y += 1
         print("Done.")
     except Exception as e:
