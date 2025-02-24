@@ -26,7 +26,11 @@ genres_dataset = clean_normalise_boolean(genres_dataset, "genres", "; ") #Normal
 date_dataset = clean_normalise_months(date_dataset) #Normalise release date column as integers.
 #Create the models from the dataset.
 print("\n**Creating KNN Models**")
-KNNCreator(age_rating_dataset, "movie_rated")
-KNNCreator(runtime_dataset, "run_length")
-KNNCreator(genres_dataset, "genres")
-KNNCreator(date_dataset, "release_date")
+age_classifier = KNNCreator(age_rating_dataset, "movie_rated")
+length_classifier = KNNCreator(runtime_dataset, "run_length")
+genre_classifier = KNNCreator(genres_dataset, "genres")
+date_classifier = KNNCreator(date_dataset, "release_date")
+classifiers = [age_classifier, length_classifier, genre_classifier, date_classifier] #For simplicity
+#Initiate the classifier.
+for classifier in classifiers:
+    classifier.classifier_init()
