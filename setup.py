@@ -62,18 +62,17 @@ def clean_normalise_boolean(dataset, column_name, split_type=None):
         error_exit(e)
     #Loop 2
     try:
-        #print("Changing values to boolean...", end="")
         y = 0
         for row in dataset[column_name]:
             row = row.lower()
-            bool_list = create_ditto_list(len(unique_vals), False)
+            bool_list = create_ditto_list(len(unique_vals), 0)
             if split_type is not None:
                 for value in row.split(split_type):
                     if value in unique_vals and value != "" and value != " ":
-                        bool_list[unique_vals.index(value)] = True
+                        bool_list[unique_vals.index(value)] = 1
             else:
                 if row in unique_vals and row != "" and row != " ":
-                    bool_list[unique_vals.index(row)] = True
+                    bool_list[unique_vals.index(row)] = 1
             #Make sure at least one of the values is True.
             if True not in bool_list:
                 raise Exception("One or more rows have no True values when normalising column " + column_name)

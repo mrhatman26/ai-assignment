@@ -36,5 +36,5 @@ class KNNCreator():
             print(dataset_name + " x_train shape is " + str(self.x_train.shape) + "\ny_train shape is " + str(self.y_train.shape))
             print(dataset_name + " x_test shape is " + str(self.x_test.shape) + "\ny_test shape is " + str(self.y_test.shape))
             pause()
-        except Exception as e:
+        except Exception as e: ######################ToDo: Must convert lists in data to arrays as pandas annoying won't accept them in any way other than as a string.
             error_exit(e)
