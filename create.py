@@ -17,6 +17,8 @@ class KNNCreator():
     predicted = None
     expected = None
     wrong = None
+    confusion = None
+    class_report = None
     x, y, x_train, y_train, x_test, y_test = None, None, None, None, None, None
     def __init__(self, dataset, dataset_name):
         try:
@@ -94,9 +96,17 @@ class KNNCreator():
             self.wrong = [(p, e) for (p, e) in zip(self.predicted, self.expected) if p != e]
             print(self.wrong)
             print("KNN score is ", f'{self.classifier.score(self.x_test, self.y_test):.2%}')
-            #pause()
+            print("")
         except Exception as e:
             error_exit(e)
 
     def generate_confusion_matrix(self):
-        pass
+        try:
+            print("Creating confusion matrix...", end="")
+            self.confusion = confusion_matrix(y_true=self.expected, y_pred=self.predicted)
+            print("Done.\nConfusion matrix is:\n" + str(confusion_matrix) + "\nGenerating classification report...", end="")
+            self.class_report = classification_report(self.expected, self.predicted)
+            print("Done.\nClassification report is:\n" + str(classification_report))
+            print("")
+        except Exception as e:
+            error_exit(e)
