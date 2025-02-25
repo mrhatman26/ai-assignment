@@ -46,6 +46,11 @@ class KNNCreator():
             #Setting up the training data. Here, 30% of the data becomes training data while the rest is test data.
             #Training data is like putting a label on a banana saying that it is a banana and then telling someone, "This is a banana".
             #Test data meanwhile, does not have that label. It's like asking someone, "what is this yellow object?" and hoping they say "banana".
+            if type(self.x[0]) != list:
+                for i in range(0, len(self.x)):
+                    self.x[i] = [self.x[i]]
+            for item in self.x:
+                print(item)
             self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(self.x, self.y, random_state=11, test_size=0.30)
             #Converting the training and test data to numpy arrays that are integers.
             self.x_train = np.array(list(self.x_train), dtype=int)
@@ -79,8 +84,6 @@ class KNNCreator():
             print("Initiating KNN classifier...", end="")
             self.classifier = KNeighborsClassifier()
             print("Done.\nFitting training data...", end="")
-            #Investigate 1D Array error.
-            pause()
             self.classifier.fit(X=self.x_train, y=self.y_train)
             print("Done.\nTesting model with test data...", end="")
             self.predicted = self.classifier.predict(X=self.x_test)
