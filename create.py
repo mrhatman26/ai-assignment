@@ -79,6 +79,8 @@ class KNNCreator():
             print("Initiating KNN classifier...", end="")
             self.classifier = KNeighborsClassifier()
             print("Done.\nFitting training data...", end="")
+            #Investigate 1D Array error.
+            pause()
             self.classifier.fit(X=self.x_train, y=self.y_train)
             print("Done.\nTesting model with test data...", end="")
             self.predicted = self.classifier.predict(X=self.x_test)
@@ -89,7 +91,7 @@ class KNNCreator():
             self.wrong = [(p, e) for (p, e) in zip(self.predicted, self.expected) if p != e]
             print(self.wrong)
             print("KNN score is ", f'{self.classifier.score(self.x_test, self.y_test):.2%}')
-            pause()
+            #pause()
         except Exception as e:
             error_exit(e)
 
