@@ -31,6 +31,7 @@ length_classifier = KNNCreator(runtime_dataset, "run_length")
 genre_classifier = KNNCreator(genres_dataset, "genres")
 date_classifier = KNNCreator(date_dataset, "release_date")
 classifiers = [age_classifier, length_classifier, genre_classifier, date_classifier] #For simplicity
-#Initiate the classifier.
+#Run the classifier.
 for classifier in classifiers:
     classifier.classifier_init()
+    classifier.generate_confusion_matrix()

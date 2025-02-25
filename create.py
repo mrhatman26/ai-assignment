@@ -49,10 +49,10 @@ class KNNCreator():
             #Training data is like putting a label on a banana saying that it is a banana and then telling someone, "This is a banana".
             #Test data meanwhile, does not have that label. It's like asking someone, "what is this yellow object?" and hoping they say "banana".
             if type(self.x[0]) != list:
+                print("Data is not a list, converting it to a list...", end="")
                 for i in range(0, len(self.x)):
                     self.x[i] = [self.x[i]]
-            for item in self.x:
-                print(item)
+                print("Done.")
             self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(self.x, self.y, random_state=11, test_size=0.30)
             #Converting the training and test data to numpy arrays that are integers.
             self.x_train = np.array(list(self.x_train), dtype=int)
@@ -92,9 +92,7 @@ class KNNCreator():
             self.expected = self.y_test
             print("Done.")
             print("Predicted is " + str(self.predicted) + "\nExpected is " + str(self.expected))
-            print("Wrong amount is...", end="")
             self.wrong = [(p, e) for (p, e) in zip(self.predicted, self.expected) if p != e]
-            print(self.wrong)
             print("KNN score is ", f'{self.classifier.score(self.x_test, self.y_test):.2%}')
             print("")
         except Exception as e:
@@ -104,9 +102,9 @@ class KNNCreator():
         try:
             print("Creating confusion matrix...", end="")
             self.confusion = confusion_matrix(y_true=self.expected, y_pred=self.predicted)
-            print("Done.\nConfusion matrix is:\n" + str(confusion_matrix) + "\nGenerating classification report...", end="")
+            print("Done.\nConfusion matrix is:\n" + str(self.confusion) + "\nGenerating classification report...", end="")
             self.class_report = classification_report(self.expected, self.predicted)
-            print("Done.\nClassification report is:\n" + str(classification_report))
+            print("Done.\nClassification report is:\n" + str(self.class_report))
             print("")
         except Exception as e:
             error_exit(e)
