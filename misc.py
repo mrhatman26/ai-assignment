@@ -123,3 +123,7 @@ def create_ditto_list(length, value_to_repeat):
         new_list.append(value_to_repeat)
         index += 1
     return new_list
+
+def check_save_dir_exists():
+    if os.path.exists("./saved_data/") is not True:
+        os.makedirs("./saved_data/")
