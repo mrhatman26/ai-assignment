@@ -35,3 +35,4 @@ classifiers = [age_classifier, length_classifier, genre_classifier, date_classif
 for classifier in classifiers:
     classifier.classifier_init()
     classifier.generate_confusion_matrix()
+    classifier.train_kfold()

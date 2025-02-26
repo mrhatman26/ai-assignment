@@ -19,6 +19,8 @@ class KNNCreator():
     wrong = None
     confusion = None
     class_report = None
+    kfold = None
+    kfold_scores = None
     x, y, x_train, y_train, x_test, y_test = None, None, None, None, None, None
     def __init__(self, dataset, dataset_name):
         try:
@@ -106,5 +108,21 @@ class KNNCreator():
             self.class_report = classification_report(self.expected, self.predicted)
             print("Done.\nClassification report is:\n" + str(self.class_report))
             print("")
+        except Exception as e:
+            error_exit(e)
+
+    def train_kfold(self):
+        try:
+            print("Training " + self.dataset_name + " model using KFOLD...", end="")
+            self.kfold = KFold(n_splits=len(self.dataset[self.dataset_name]) - 1, random_state=11, shuffle=True)
+            self.kfold_scores = cross_val_score(self.classifier, X=np.array(list(self.dataset[self.dataset_name]), dtype=int), y=np.array(list(self.dataset["rating"]), dtype=int), cv=self.kfold)
+            print("Done.")
+            print("")
+        except Exception as e:
+            error_exit(e)
+
+    def save_model(self):
+        try:
+            print("Saving " + self.dataset_name + " model using pickle...", end="")
         except Exception as e:
             error_exit(e)
