@@ -33,7 +33,7 @@ date_classifier = KNNCreator(date_dataset, "release_date")
 classifiers = [age_classifier, length_classifier, genre_classifier, date_classifier] #For simplicity
 #Run the classifier.
 for classifier in classifiers:
-    classifier.classifier_init()
-    classifier.generate_confusion_matrix()
-    classifier.train_kfold()
-    classifier.save_model()
+    classifier.classifier_init() #Start the classifier (Setting up the data by splitting it into training and testing).
+    classifier.generate_confusion_matrix() #Generate confusion matrix for a visual representation of the accuracy of the model.
+    classifier.train_kfold() #Train the model using KFOLD.
+    classifier.save_model() #Save the model using pickle.
