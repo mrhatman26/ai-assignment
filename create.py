@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import pickle as pk
 from sklearn.model_selection import train_test_split #Importing of the required modules from sklearn to allow for the training of the A.I.
 #test_train_split splits the data between training data and test data/
 from sklearn.neighbors import KNeighborsClassifier #KNN is what I've used to train the A.I
@@ -117,6 +118,9 @@ class KNNCreator():
             self.kfold = KFold(n_splits=len(self.dataset[self.dataset_name]) - 1, random_state=11, shuffle=True)
             self.kfold_scores = cross_val_score(self.classifier, X=np.array(list(self.dataset[self.dataset_name]), dtype=int), y=np.array(list(self.dataset["rating"]), dtype=int), cv=self.kfold)
             print("Done.")
+            print("Scores are:\n", self.kfold_scores) #KFOLD scores
+            print(f'Mean accuracy: {self.kfold_scores.mean():.2%}') #Mean average of all the scores.
+            print(f'Accuracy standard deviation: {self.kfold_scores.std():.2%}') #Standard deviation of the scores.
             print("")
         except Exception as e:
             error_exit(e)
