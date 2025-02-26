@@ -36,3 +36,4 @@ for classifier in classifiers:
     classifier.classifier_init()
     classifier.generate_confusion_matrix()
     classifier.train_kfold()
+    classifier.save_model()

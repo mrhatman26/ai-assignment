@@ -128,5 +128,9 @@ class KNNCreator():
     def save_model(self):
         try:
             print("Saving " + self.dataset_name + " model using pickle...", end="")
+            model_pickle_file = open("./saved_data/models/" + self.dataset_name + "_model", "wb") #Open or create a file to save the model using pickle. "wb" is binary write mode.
+            pk.dump(self.classifier, model_pickle_file)
+            model_pickle_file.close()
+            print("Done.")
         except Exception as e:
             error_exit(e)
