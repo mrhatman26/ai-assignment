@@ -1,8 +1,4 @@
-import tkinter as t
-import random as r
 import sys, os, platform, traceback
-from tkinter import filedialog as f
-from tkinter import messagebox
 
 def pause(): #Stops the program from running by requestiong input. Anything inputted is not used.
     input("(Press ENTER to continue)")
