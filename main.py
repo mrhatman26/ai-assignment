@@ -1,6 +1,7 @@
 import pandas as pd
 from setup import *
 from create_knn import KNNCreator
+from create_linear import LinearCreator
 from misc import *
 check_save_dir_exists() #Check if ./saved_data/ exists. If it does not, create it.
 pd.options.mode.chained_assignment = None 
@@ -35,7 +36,16 @@ knn_length_classifier = KNNCreator(knn_runtime_dataset, "run_length")
 knn_genre_classifier = KNNCreator(knn_genres_dataset, "genres")
 knn_date_classifier = KNNCreator(knn_date_dataset, "release_date")
 knn_classifiers = [knn_age_classifier, knn_length_classifier, knn_genre_classifier, knn_date_classifier] #For simplicity
+print("\n**Creating Lineaer Regression Models**")
+print(str(linear_age_rating_dataset))
+pause()
+linear_age_classifier = LinearCreator(linear_age_rating_dataset, "movie_rated")
+linear_length_classifier = LinearCreator(linear_runtime_dataset, "run_length")
+linear_genre_classifier = LinearCreator(linear_genres_dataset, "genres")
+linear_date_classifier = LinearCreator(linear_date_dataset, "release_date")
+linear_classifiers = [linear_age_classifier, linear_length_classifier, linear_genre_classifier, linear_date_classifier]
 #Run the KNN classifier.
+print("\n**Running KNNCreator Methods**")
 for classifier in knn_classifiers:
     print("---------------------------------------------------------------------")
     classifier.classifier_init() #Start the classifier (Setting up the data by splitting it into training and testing).
@@ -43,3 +53,5 @@ for classifier in knn_classifiers:
     classifier.train_kfold() #Train the model using KFOLD.
     classifier.save_model() #Save the model using pickle.
     print("---------------------------------------------------------------------\n")
+#Run the Linear Regression classifier.
+#for classifier in linear_classifiers:

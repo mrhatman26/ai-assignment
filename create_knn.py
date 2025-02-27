@@ -44,9 +44,11 @@ class KNNCreator():
             print("\n")
             #Setting the selected column as X as in the x axis of a graph.
             #movie_rated is dropped otherwise it'd also be apart of the X axis which wouldn't make sense.
-            self.x = dataset[self.dataset_name].drop(columns="rating")
+            print("Creating X and Y of model...", end="")
+            self.x = self.dataset[self.dataset_name].drop(columns="rating")
             #Ditto, but movie rated is set to the Y axis and the selected column is dropped instead.
-            self.y = dataset["rating"].drop(columns=self.dataset_name)
+            self.y = self.dataset["rating"].drop(columns=self.dataset_name)
+            print("Done.")
             #Setting up the training data. Here, 30% of the data becomes training data while the rest is test data.
             #Training data is like putting a label on a banana saying that it is a banana and then telling someone, "This is a banana".
             #Test data meanwhile, does not have that label. It's like asking someone, "what is this yellow object?" and hoping they say "banana".
@@ -55,6 +57,7 @@ class KNNCreator():
                 for i in range(0, len(self.x)):
                     self.x[i] = [self.x[i]]
                 print("Done.")
+            print("Creating test and training data through splitting...", end="")
             self.x_train, self.x_test, self.y_train, self.y_test = train_test_split(self.x, self.y, random_state=11, test_size=0.30)
             #Converting the training and test data to numpy arrays that are integers.
             self.x_train = np.array(list(self.x_train), dtype=int)

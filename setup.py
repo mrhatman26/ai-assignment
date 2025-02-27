@@ -77,6 +77,7 @@ def clean_normalise_boolean_to_int(dataset, column_name):
     except Exception as e:
         error_exit(e)
     dataset = dataset.reset_index(drop=True)
+    return dataset
         
 
 def clean_normalise_boolean(dataset, column_name, split_type=None):
