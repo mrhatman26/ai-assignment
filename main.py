@@ -1,6 +1,6 @@
 import pandas as pd
 from setup import *
-from create import KNNCreator
+from create_knn import KNNCreator
 from misc import *
 check_save_dir_exists() #Check if ./saved_data/ exists. If it does not, create it.
 pd.options.mode.chained_assignment = None 
