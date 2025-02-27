@@ -38,8 +38,35 @@ def clean_remove_other_columns(dataset, save_column):
     dataset = dataset.reset_index(drop=True)
     return dataset
 
-def test_normalise(dataset):
-    pass
+def test_normalise(dataset, column_name, split_type=None):
+    try:
+        #First get all unique values of the specified column.
+        unique_vals = []
+        print("Getting unique values of column...", end="")
+        for row in dataset[column_name]:
+            if split_type is not None:
+                for value in row.split(split_type):
+                    value = value.lower()
+                    if value not in unique_vals and value != "" and value != " ":
+                        unique_vals.append(value.lower())
+            else:
+                row = row.lower()
+                if row not in unique_vals and row != "" and row != " ":
+                    unique_vals.append(row.lower())
+        print("Done.\nUnique values detected are:")
+        for item in unique_vals:
+            print("'" + item + "'")
+    except Exception as e:
+        error_exit(e)
+    try:
+        y = 0
+        for row in dataset[column_name]:
+            row_index = unique_vals.index(row)
+            dataset.loc[y, column_name] = row_index
+            y += 1
+    except Exception as e:
+        error_exit(e)
+    dataset.to_csv("./saved_data/Movie Dataset (Test Normalisation).csv", sep=",")
 
 def clean_normalise_boolean(dataset, column_name, split_type=None):
     print("\n**Normalising " + str(column_name) + " column**")
