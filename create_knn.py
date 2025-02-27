@@ -1,4 +1,3 @@
-import pandas as pd
 import numpy as np
 import pickle as pk
 from sklearn.model_selection import train_test_split #Importing of the required modules from sklearn to allow for the training of the A.I.

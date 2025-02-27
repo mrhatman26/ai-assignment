@@ -38,6 +38,9 @@ def clean_remove_other_columns(dataset, save_column):
     dataset = dataset.reset_index(drop=True)
     return dataset
 
+def test_normalise(dataset):
+    pass
+
 def clean_normalise_boolean(dataset, column_name, split_type=None):
     print("\n**Normalising " + str(column_name) + " column**")
     #Loop 1
