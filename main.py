@@ -26,13 +26,13 @@ genres_dataset = clean_normalise_boolean(genres_dataset, "genres", "; ") #Normal
 date_dataset = clean_normalise_months(date_dataset) #Normalise release date column as integers.
 #Create the models from the dataset.
 print("\n**Creating KNN Models**")
-age_classifier = KNNCreator(age_rating_dataset, "movie_rated")
-length_classifier = KNNCreator(runtime_dataset, "run_length")
-genre_classifier = KNNCreator(genres_dataset, "genres")
-date_classifier = KNNCreator(date_dataset, "release_date")
-classifiers = [age_classifier, length_classifier, genre_classifier, date_classifier] #For simplicity
-#Run the classifier.
-for classifier in classifiers:
+knn_age_classifier = KNNCreator(age_rating_dataset, "movie_rated")
+knn_length_classifier = KNNCreator(runtime_dataset, "run_length")
+knn_genre_classifier = KNNCreator(genres_dataset, "genres")
+knn_date_classifier = KNNCreator(date_dataset, "release_date")
+knn_classifiers = [knn_age_classifier, knn_length_classifier, knn_genre_classifier, knn_date_classifier] #For simplicity
+#Run the KNN classifier.
+for classifier in knn_classifiers:
     print("---------------------------------------------------------------------")
     classifier.classifier_init() #Start the classifier (Setting up the data by splitting it into training and testing).
     classifier.generate_confusion_matrix() #Generate confusion matrix for a visual representation of the accuracy of the model.
