@@ -20,16 +20,20 @@ runtime_dataset = clean_remove_other_columns(cleaned_dataset, "run_length")
 genres_dataset = clean_remove_other_columns(cleaned_dataset, "genres")
 date_dataset = clean_remove_other_columns(cleaned_dataset, "release_date")
 #Normalise the four datasets.
-age_rating_dataset = clean_normalise_boolean(age_rating_dataset, "movie_rated") #Normalise age rating column as Boolean values
-runtime_dataset =  clean_normalise_runtime(runtime_dataset)#Normalise runtime length column as integers.
-genres_dataset = clean_normalise_boolean(genres_dataset, "genres", "; ") #Normalise genres column as Boolean values.
-date_dataset = clean_normalise_months(date_dataset) #Normalise release date column as integers.
+knn_age_rating_dataset = clean_normalise_boolean(age_rating_dataset, "movie_rated") #Normalise age rating column as Boolean values
+linear_age_rating_dataset = clean_normalise_boolean_to_int(knn_age_rating_dataset, "movie_rated")
+knn_runtime_dataset = clean_normalise_runtime(runtime_dataset)#Normalise runtime length column as integers.
+linear_runtime_dataset = knn_runtime_dataset
+knn_genres_dataset = clean_normalise_boolean(genres_dataset, "genres", "; ") #Normalise genres column as Boolean values.
+linear_genres_dataset = clean_normalise_boolean_to_int(knn_genres_dataset, "genres")
+knn_date_dataset = clean_normalise_months(date_dataset) #Normalise release date column as integers.
+linear_date_dataset = knn_date_dataset
 #Create the models from the dataset.
 print("\n**Creating KNN Models**")
-knn_age_classifier = KNNCreator(age_rating_dataset, "movie_rated")
-knn_length_classifier = KNNCreator(runtime_dataset, "run_length")
-knn_genre_classifier = KNNCreator(genres_dataset, "genres")
-knn_date_classifier = KNNCreator(date_dataset, "release_date")
+knn_age_classifier = KNNCreator(knn_age_rating_dataset, "movie_rated")
+knn_length_classifier = KNNCreator(knn_runtime_dataset, "run_length")
+knn_genre_classifier = KNNCreator(knn_genres_dataset, "genres")
+knn_date_classifier = KNNCreator(knn_date_dataset, "release_date")
 knn_classifiers = [knn_age_classifier, knn_length_classifier, knn_genre_classifier, knn_date_classifier] #For simplicity
 #Run the KNN classifier.
 for classifier in knn_classifiers:

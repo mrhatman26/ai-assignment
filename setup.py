@@ -38,35 +38,46 @@ def clean_remove_other_columns(dataset, save_column):
     dataset = dataset.reset_index(drop=True)
     return dataset
 
-def test_normalise(dataset, column_name, split_type=None):
+def clean_normalise_boolean_to_int(dataset, column_name):
     try:
         #First get all unique values of the specified column.
         unique_vals = []
         print("Getting unique values of column...", end="")
         for row in dataset[column_name]:
-            if split_type is not None:
-                for value in row.split(split_type):
-                    value = value.lower()
-                    if value not in unique_vals and value != "" and value != " ":
-                        unique_vals.append(value.lower())
-            else:
-                row = row.lower()
-                if row not in unique_vals and row != "" and row != " ":
-                    unique_vals.append(row.lower())
+            if row not in unique_vals and row != "" and row != " ":
+                unique_vals.append(row)
         print("Done.\nUnique values detected are:")
         for item in unique_vals:
-            print("'" + item + "'")
+            print("'" + str(item) + "'")
     except Exception as e:
         error_exit(e)
     try:
+        print("Saving unique index numbers to rows...", end="")
         y = 0
         for row in dataset[column_name]:
             row_index = unique_vals.index(row)
             dataset.loc[y, column_name] = row_index
             y += 1
+        print("Done.")
     except Exception as e:
         error_exit(e)
-    dataset.to_csv("./saved_data/Movie Dataset (Test Normalisation).csv", sep=",")
+    try:
+        print("Saving modified dataset...", end="")
+        dataset.to_csv("./saved_data/Movie Dataset (Boolean to Integer Normalisation of " + column_name + ").csv", sep=",")
+        print("Done.")
+    except Exception as e:
+        error_exit(e)
+    try:
+        print("Saving unique value list to file...", end="")
+        unique_vals_file = open("./saved_data/" + column_name + "_unique_vals_int_to_bool.txt", "w")
+        for item in unique_vals:
+            unique_vals_file.write(str(item) + "\n")
+        unique_vals_file.close()
+        print("Done.")
+    except Exception as e:
+        error_exit(e)
+    dataset = dataset.reset_index(drop=True)
+        
 
 def clean_normalise_boolean(dataset, column_name, split_type=None):
     print("\n**Normalising " + str(column_name) + " column**")
