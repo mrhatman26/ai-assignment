@@ -71,20 +71,27 @@ class KNNCreator():
             self.confirm_length()
 
     def confirm_length(self):
+        #Make sure the length of the data given is all the same length.
+        #KNN will not work if any of the data is of different lengths.
         try:
             print("Confirming all data of " + self.dataset_name + " is the same length...", end="")
             unique_length = 0
             for item in self.dataset[self.dataset_name]:
                 if unique_length == 0:
                     unique_length = len(item)
+                    #Gets the length of the first row of data.
                 else:
                     if len(item) != unique_length:
+                        #If the data does not match the length of the first row (unique_length), raise an Exception.
                         raise Exception(self.dataset_name + " dataset does not have equal list lengths.")
             print("Done.")
         except Exception as e:
             error_exit(e)
 
     def classifier_init(self):
+        #Creates an instance of the KNeighborsClassifier and train it with
+        #the test data.
+        #It then generates a "score" which is a percentage of how accurate the model is.
         try:
             print("Initiating KNN classifier...", end="")
             self.classifier = KNeighborsClassifier()
@@ -102,6 +109,7 @@ class KNNCreator():
             error_exit(e)
 
     def generate_confusion_matrix(self):
+        #Generats a grid that is a visual representation of how accurate the model.
         try:
             print("Creating confusion matrix...", end="")
             self.confusion = confusion_matrix(y_true=self.expected, y_pred=self.predicted)
@@ -113,9 +121,11 @@ class KNNCreator():
             error_exit(e)
 
     def train_kfold(self):
+        #Trains the model using KFOLD.
         try:
             print("Training " + self.dataset_name + " model using KFOLD...", end="")
             self.kfold = KFold(n_splits=len(self.dataset[self.dataset_name]) - 1, random_state=11, shuffle=True)
+            #Trains the model as many times as the number of rows in the dataset.
             self.kfold_scores = cross_val_score(self.classifier, X=np.array(list(self.dataset[self.dataset_name]), dtype=int), y=np.array(list(self.dataset["rating"]), dtype=int), cv=self.kfold)
             print("Done.")
             print("Scores are:\n", self.kfold_scores) #KFOLD scores
@@ -126,6 +136,8 @@ class KNNCreator():
             error_exit(e)
 
     def save_model(self):
+        #Saves the generated model using the "pickle" library.
+        #All models are saved to "./saved_data/models/" for clarity.
         try:
             print("Saving " + self.dataset_name + " model using pickle...", end="")
             model_pickle_file = open("./saved_data/models/" + self.dataset_name + "_model", "wb") #Open or create a file to save the model using pickle. "wb" is binary write mode.
