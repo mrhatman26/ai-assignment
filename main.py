@@ -37,8 +37,6 @@ knn_genre_classifier = KNNCreator(knn_genres_dataset, "genres")
 knn_date_classifier = KNNCreator(knn_date_dataset, "release_date")
 knn_classifiers = [knn_age_classifier, knn_length_classifier, knn_genre_classifier, knn_date_classifier] #For simplicity
 print("\n**Creating Lineaer Regression Models**")
-print(str(linear_age_rating_dataset))
-pause()
 linear_age_classifier = LinearCreator(linear_age_rating_dataset, "movie_rated")
 linear_length_classifier = LinearCreator(linear_runtime_dataset, "run_length")
 linear_genre_classifier = LinearCreator(linear_genres_dataset, "genres")
@@ -54,4 +52,9 @@ for classifier in knn_classifiers:
     classifier.save_model() #Save the model using pickle.
     print("---------------------------------------------------------------------\n")
 #Run the Linear Regression classifier.
-#for classifier in linear_classifiers:
+i = 0
+for classifier in linear_classifiers:
+    print("---------------------------------------------------------------------")
+    print("i is", i)
+    classifier.linear_init()
+    print("---------------------------------------------------------------------\n")

@@ -7,6 +7,7 @@ from sklearn.metrics import confusion_matrix #Allows for the creation of a confu
 from sklearn.metrics import classification_report #Allows for the creation of classification report
 from sklearn.model_selection import KFold #Allows for KFold validation
 from sklearn.model_selection import cross_val_score #Allows for evaluation of a score by cross validation
+from sklearn.preprocessing import StandardScaler
 from misc import *
 
 class KNNCreator():
