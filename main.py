@@ -21,7 +21,6 @@ age_rating_dataset = clean_remove_other_columns(cleaned_dataset, "movie_rated")
 runtime_dataset = clean_remove_other_columns(cleaned_dataset, "run_length")
 genres_dataset = clean_remove_other_columns(cleaned_dataset, "genres")
 date_dataset = clean_remove_other_columns(cleaned_dataset, "release_date")
-o_datasets = [age_rating_dataset, runtime_dataset, genres_dataset, date_dataset] 
 #Normalise the four datasets.
 knn_age_rating_dataset = clean_normalise_boolean(age_rating_dataset, "movie_rated") #Normalise age rating column as Boolean values
 linear_age_rating_dataset = clean_normalise_boolean_to_int(knn_age_rating_dataset, "movie_rated")
@@ -61,8 +60,11 @@ for classifier in linear_classifiers:
     classifier.save_model()
     print("---------------------------------------------------------------------\n")
 print("\n**Generating graphs**")
-#Original Datasets Graphs
-for dataset in o_datasets:
-    eeee
+show_graphs = ask_question("Would you like for the graphs to be shown after generating them?")
+#Datasets Graphs
+render_scatter_dataset(age_rating_dataset, "movie_rated", show_graphs)
+render_scatter_dataset(runtime_dataset, "run_length", show_graphs)
+render_scatter_dataset(genres_dataset, "genres", show_graphs)
+render_scatter_dataset(date_dataset, "release_date", show_graphs)
 #KNN Graphs
 #for classifier in knn_classifiers:

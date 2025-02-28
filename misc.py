@@ -62,6 +62,8 @@ def check_save_dir_exists():
         os.makedirs("./saved_data/models/knn/")
     if os.path.exists("./saved_data/models/linear/") is not True:
         os.makedirs("./saved_data/models/linear/")
+    if os.path.exists("./saved_data/graphs/") is not True:
+        os.makedirs("./saved_data/graphs/")
 
 def ask_question(message):
     print(message)
