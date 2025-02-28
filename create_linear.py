@@ -5,6 +5,8 @@ from sklearn.model_selection import train_test_split #Importing of the required 
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import confusion_matrix #Allows for the creation of a confusion matrix
 from sklearn.metrics import classification_report #Allows for the creation of classification report
+from sklearn.model_selection import KFold #Allows for KFold validation
+from sklearn.model_selection import cross_val_score #Allows for evaluation of a score by cross validation
 from misc import * 
 
 class LinearCreator():
@@ -16,6 +18,8 @@ class LinearCreator():
     confusion = None
     wrong = None
     class_report = None
+    kfold = None
+    kfold_scores = None
     x, y, x_train, y_train, x_test, y_test = None, None, None, None, None, None
     def __init__(self, dataset, dataset_name):
         try:

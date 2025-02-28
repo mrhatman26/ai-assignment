@@ -62,3 +62,16 @@ def check_save_dir_exists():
         os.makedirs("./saved_data/models/knn/")
     if os.path.exists("./saved_data/models/linear/") is not True:
         os.makedirs("./saved_data/models/linear/")
+
+def ask_question(message):
+    print(message)
+    answer = input("Yes/No (Y/N): ").upper()
+    while True:
+        if answer in "YES" "Y":
+            return True
+        elif answer in "NO" "N":
+            return False
+        else:
+            print("Please enter Yes (Y) or No (N)")
+            pause()
+            print("\n")

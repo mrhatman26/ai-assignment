@@ -2,6 +2,7 @@ import pandas as pd
 from setup import *
 from create_knn import KNNCreator
 from create_linear import LinearCreator
+from render import *
 from misc import *
 check_save_dir_exists() #Check if ./saved_data/ exists. If it does not, create it.
 pd.options.mode.chained_assignment = None 
@@ -20,6 +21,7 @@ age_rating_dataset = clean_remove_other_columns(cleaned_dataset, "movie_rated")
 runtime_dataset = clean_remove_other_columns(cleaned_dataset, "run_length")
 genres_dataset = clean_remove_other_columns(cleaned_dataset, "genres")
 date_dataset = clean_remove_other_columns(cleaned_dataset, "release_date")
+o_datasets = [age_rating_dataset, runtime_dataset, genres_dataset, date_dataset] 
 #Normalise the four datasets.
 knn_age_rating_dataset = clean_normalise_boolean(age_rating_dataset, "movie_rated") #Normalise age rating column as Boolean values
 linear_age_rating_dataset = clean_normalise_boolean_to_int(knn_age_rating_dataset, "movie_rated")
@@ -58,3 +60,9 @@ for classifier in linear_classifiers:
     classifier.generate_confusion_matrix()
     classifier.save_model()
     print("---------------------------------------------------------------------\n")
+print("\n**Generating graphs**")
+#Original Datasets Graphs
+for dataset in o_datasets:
+    eeee
+#KNN Graphs
+#for classifier in knn_classifiers:
