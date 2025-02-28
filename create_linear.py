@@ -1,4 +1,5 @@
 import numpy as np
+import pickle as pk
 from sklearn import preprocessing, svm
 from sklearn.model_selection import train_test_split #Importing of the required modules from sklearn to allow for the training of the A.I.
 from sklearn.linear_model import LinearRegression
@@ -41,5 +42,17 @@ class LinearCreator():
             self.linear = LinearRegression()
             self.linear.fit(self.x_train, self.y_train)
             print("Done.\nScore is: " + str(self.linear.score(self.x_test, self.y_test)))
+        except Exception as e:
+            error_exit(e)
+
+    def save_model(self):
+        #Saves the generated model using the "pickle" library.
+        #All models are saved to "./saved_data/models/knn/" for clarity.
+        try:
+            print("Saving " + self.dataset_name + " model using pickle...", end="")
+            model_pickle_file = open("./saved_data/models/linear/" + self.dataset_name + "_model", "wb") #Open or create a file to save the model using pickle. "wb" is binary write mode.
+            pk.dump(self.linear, model_pickle_file)
+            model_pickle_file.close()
+            print("Done.")
         except Exception as e:
             error_exit(e)
