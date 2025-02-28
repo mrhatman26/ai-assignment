@@ -52,9 +52,7 @@ for classifier in knn_classifiers:
     classifier.save_model() #Save the model using pickle.
     print("---------------------------------------------------------------------\n")
 #Run the Linear Regression classifier.
-i = 0
 for classifier in linear_classifiers:
     print("---------------------------------------------------------------------")
-    print("i is", i)
     classifier.linear_init()
     print("---------------------------------------------------------------------\n")
