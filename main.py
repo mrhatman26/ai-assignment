@@ -23,13 +23,13 @@ genres_dataset = clean_remove_other_columns(cleaned_dataset, "genres")
 date_dataset = clean_remove_other_columns(cleaned_dataset, "release_date")
 #Normalise the four datasets.
 knn_age_rating_dataset = clean_normalise_boolean(age_rating_dataset, "movie_rated") #Normalise age rating column as Boolean values
-linear_age_rating_dataset = clean_normalise_boolean_to_int(knn_age_rating_dataset, "movie_rated")
+linear_age_rating_dataset = clean_normalise_boolean_to_int(knn_age_rating_dataset.copy(), "movie_rated")
 knn_runtime_dataset = clean_normalise_runtime(runtime_dataset)#Normalise runtime length column as integers.
-linear_runtime_dataset = knn_runtime_dataset
+linear_runtime_dataset = knn_runtime_dataset.copy()
 knn_genres_dataset = clean_normalise_boolean(genres_dataset, "genres", "; ") #Normalise genres column as Boolean values.
 linear_genres_dataset = clean_normalise_boolean_to_int(knn_genres_dataset.copy(), "genres")
 knn_date_dataset = clean_normalise_months(date_dataset) #Normalise release date column as integers.
-linear_date_dataset = knn_date_dataset
+linear_date_dataset = knn_date_dataset.copy()
 #Create the models from the dataset.
 print("\n**Creating KNN Models**")
 knn_age_classifier = KNNCreator(knn_age_rating_dataset, "movie_rated")

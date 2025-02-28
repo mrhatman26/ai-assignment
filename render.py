@@ -5,6 +5,7 @@ from setup import clean_normalise_boolean_to_int
 from misc import *
 
 def render_scatter_int(dataset, dataset_name, show_graph, xlabel, title):
+    dataset.to_csv('./saved_data/youareanutterfailureyouretard_' + dataset_name + ".csv")
     try:
         for i in range(0, len(dataset)):
             print(str(i + 1) + " of " + str(len(dataset)) + " rows added to scatter graph for " + dataset_name, end="\r")
@@ -17,6 +18,7 @@ def render_scatter_int(dataset, dataset_name, show_graph, xlabel, title):
         if show_graph is True:
             plt.show()
         plt.savefig("./saved_data/graphs/original_" + dataset_name + ".png")
+        plt.close()
     except Exception as e:
         error_exit(e)
 
