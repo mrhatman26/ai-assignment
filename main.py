@@ -27,7 +27,7 @@ linear_age_rating_dataset = clean_normalise_boolean_to_int(knn_age_rating_datase
 knn_runtime_dataset = clean_normalise_runtime(runtime_dataset)#Normalise runtime length column as integers.
 linear_runtime_dataset = knn_runtime_dataset
 knn_genres_dataset = clean_normalise_boolean(genres_dataset, "genres", "; ") #Normalise genres column as Boolean values.
-linear_genres_dataset = clean_normalise_boolean_to_int(knn_genres_dataset, "genres")
+linear_genres_dataset = clean_normalise_boolean_to_int(knn_genres_dataset.copy(), "genres")
 knn_date_dataset = clean_normalise_months(date_dataset) #Normalise release date column as integers.
 linear_date_dataset = knn_date_dataset
 #Create the models from the dataset.
@@ -62,9 +62,9 @@ for classifier in linear_classifiers:
 print("\n**Generating graphs**")
 show_graphs = ask_question("Would you like for the graphs to be shown after generating them?")
 #Datasets Graphs
-render_scatter_dataset(age_rating_dataset, "movie_rated", show_graphs)
-render_scatter_dataset(runtime_dataset, "run_length", show_graphs)
-render_scatter_dataset(genres_dataset, "genres", show_graphs)
-render_scatter_dataset(date_dataset, "release_date", show_graphs)
+render_scatter(knn_age_rating_dataset, "movie_rated", show_graphs, "Age Rating", "User Ratings of Age Ratings")
+render_scatter(knn_runtime_dataset, "run_length", show_graphs, "Runtime (Minutes)", "User Ratings of Runtime")
+render_scatter(knn_genres_dataset, "genres", show_graphs, "Genres", "User Ratings of Genres")
+render_scatter(knn_date_dataset, "release_date", show_graphs, "Release Month", "User Ratings of Release Month")
 #KNN Graphs
 #for classifier in knn_classifiers:

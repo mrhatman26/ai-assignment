@@ -69,7 +69,7 @@ def clean_normalise_boolean_to_int(dataset, column_name):
         error_exit(e)
     try:
         print("Saving unique value list to file...", end="")
-        unique_vals_file = open("./saved_data/" + column_name + "_unique_vals_int_to_bool.txt", "w")
+        unique_vals_file = open("./saved_data/maps/" + column_name + "_unique_vals_int_to_bool.txt", "w")
         for item in unique_vals:
             unique_vals_file.write(str(item) + "\n")
         unique_vals_file.close()
@@ -133,7 +133,7 @@ def clean_normalise_boolean(dataset, column_name, split_type=None):
         print("Failed.")
     try:
         print("Saving unique value list to file...", end="")
-        unique_vals_file = open("./saved_data/" + column_name + "_unique_vals.txt", "w")
+        unique_vals_file = open("./saved_data/maps/" + column_name + "_unique_vals.txt", "w")
         for item in unique_vals:
             unique_vals_file.write(item + "\n")
         unique_vals_file.close()

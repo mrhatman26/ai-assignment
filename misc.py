@@ -33,12 +33,13 @@ def get_os_clear():
         clear = lambda: os.system('cls')
     return clear
 
-def error_exit(exception):
+def error_exit(exception, skip=False):
     #Prints the given exception then forces the program to exit to avoid more errors.
     print("Failed.\nError: " + str(exception))
     print(str(traceback.format_exc()))
-    pause()
-    sys.exit()
+    if skip is False:
+        pause()
+        sys.exit()
 
 def create_ditto_list(length, value_to_repeat):
     #Creates a list that is the requested length and makes every value of that list
@@ -64,11 +65,13 @@ def check_save_dir_exists():
         os.makedirs("./saved_data/models/linear/")
     if os.path.exists("./saved_data/graphs/") is not True:
         os.makedirs("./saved_data/graphs/")
+    if os.path.exists("./saved_data/maps/") is not True:
+        os.makedirs("./saved_data/maps/")
 
 def ask_question(message):
-    print(message)
-    answer = input("Yes/No (Y/N): ").upper()
     while True:
+        print(message)
+        answer = input("Yes/No (Y/N): ").upper()
         if answer in "YES" "Y":
             return True
         elif answer in "NO" "N":
@@ -77,3 +80,36 @@ def ask_question(message):
             print("Please enter Yes (Y) or No (N)")
             pause()
             print("\n")
+
+def load_dataset_map(dataset_name, is_bool=False):
+    try:
+        if is_bool is False:
+            map_path = "./saved_data/maps/" + dataset_name + "_unique_vals.txt"
+        else:
+            map_path = "./saved_data/maps/" + dataset_name + "_unique_vals_int_to_bool.txt"
+        print("Opening " + map_path)
+        map_file = open(map_path, "r")
+        map_list = []
+        for unique_val in map_file:
+            unique_val = unique_val.replace("\n", "")
+            if unique_val != "":
+                map_list.append(unique_val)
+        map_file.close()
+        return map_list
+    except Exception as e:
+        return None
+    
+def check_list_bool(list_val):
+    is_bool = True
+    for item in list_val:
+        try:
+            bool(item)
+        except:
+            is_bool = False
+            break
+    return is_bool
+    
+def str_to_list(str_val): #Becase ast literal_eval doesn't damn well work.
+    str_val = str_val.replace("[", "").replace("]", "")
+    str_val = str_val.split(", ")
+    return str_val
