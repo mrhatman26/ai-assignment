@@ -3,13 +3,20 @@ import pickle as pk
 from sklearn import preprocessing, svm
 from sklearn.model_selection import train_test_split #Importing of the required modules from sklearn to allow for the training of the A.I.
 from sklearn.linear_model import LinearRegression
+from sklearn.metrics import confusion_matrix #Allows for the creation of a confusion matrix
+from sklearn.metrics import classification_report #Allows for the creation of classification report
 from misc import * 
 
 class LinearCreator():
     dataset = None
     dataset_name = ""
-    x, y, x_train, y_train, x_test, y_test = None, None, None, None, None, None
     linear = None
+    predicted = None
+    expected = None
+    confusion = None
+    wrong = None
+    class_report = None
+    x, y, x_train, y_train, x_test, y_test = None, None, None, None, None, None
     def __init__(self, dataset, dataset_name):
         try:
             print("Setting up Linear Regression model for " + dataset_name + ".")
@@ -42,6 +49,24 @@ class LinearCreator():
             self.linear = LinearRegression()
             self.linear.fit(self.x_train, self.y_train)
             print("Done.\nScore is: " + str(self.linear.score(self.x_test, self.y_test)))
+            self.predicted = self.linear.predict(self.x_test)
+            self.expected = self.y_test
+            print("Predicted is " + str(self.predicted) + "\nExpected is " + str(self.expected))
+            self.wrong = [(p, e) for (p, e) in zip(self.predicted, self.expected) if p != e]
+            self.predicted = np.array(list(self.predicted), dtype=int)
+            print("KNN score is ", f'{self.linear.score(self.x_test, self.y_test):.2%}')
+        except Exception as e:
+            error_exit(e)
+
+    def generate_confusion_matrix(self):
+        #Generats a grid that is a visual representation of how accurate the model.
+        try:
+            print("Creating confusion matrix...", end="")
+            self.confusion = confusion_matrix(y_true=self.expected, y_pred=self.predicted)
+            print("Done.\nConfusion matrix is:\n" + str(self.confusion) + "\nGenerating classification report...", end="")
+            self.class_report = classification_report(self.expected, self.predicted)
+            print("Done.\nClassification report is:\n" + str(self.class_report))
+            print("")
         except Exception as e:
             error_exit(e)
 

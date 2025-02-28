@@ -55,5 +55,6 @@ for classifier in knn_classifiers:
 for classifier in linear_classifiers:
     print("---------------------------------------------------------------------")
     classifier.linear_init()
+    classifier.generate_confusion_matrix()
     classifier.save_model()
     print("---------------------------------------------------------------------\n")
