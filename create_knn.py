@@ -13,7 +13,6 @@ from misc import *
 class KNNCreator():
     dataset = None
     dataset_name = ""
-    dataset_map = {}
     classifier = None
     predicted = None
     expected = None
@@ -28,21 +27,6 @@ class KNNCreator():
             print("Setting up KNN model for " + dataset_name + ".")
             self.dataset = dataset
             self.dataset_name = dataset_name
-            #First, create a map of the dataset from the text file generated in setup.py ("column_unique_vals.txt.txt"). 
-            #If the file exists, then it doesn't need a map.
-            try:
-                index = 0
-                for line in open("./saved_data/" + dataset_name + "_unique_vals.txt", "r"):
-                    self.dataset_map[line.replace("\n", "")] = index
-                    index += 1
-                print("Done.")
-            except:
-                self.dataset_map = None
-            if self.dataset_map is not None:
-                print("Mapping for " + self.dataset_name + " is:\n")
-                for key, value in self.dataset_map.items():
-                    print(str(key) + ": " + str(value))
-            print("\n")
             #Setting the selected column as X as in the x axis of a graph.
             #movie_rated is dropped otherwise it'd also be apart of the X axis which wouldn't make sense.
             print("Creating X and Y of model...", end="")
