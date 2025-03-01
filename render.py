@@ -5,7 +5,6 @@ from setup import clean_normalise_boolean_to_int
 from misc import *
 
 def render_scatter_int(dataset, dataset_name, show_graph, xlabel, title):
-    dataset.to_csv('./saved_data/youareanutterfailureyouretard_' + dataset_name + ".csv")
     print("Adding rows to the scattergraph...", end="")
     try:
         for i in range(0, len(dataset)):
