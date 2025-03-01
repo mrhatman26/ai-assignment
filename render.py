@@ -57,13 +57,13 @@ def render_scatter_bool(dataset, dataset_name, show_graph, xlabel, title, show_l
     except Exception as e:
         error_exit(e)
 
-def render_heatmap(dataset, dataset_name, show_graph):
+def render_heatmap(dataset, dataset_name, show_graph, classifier):
     try:
         print("Creating a heatmap from " + dataset_name + "...", end="")
         heatmap = seaborn.heatmap(dataset, annot=True, cmap='nipy_spectral_r')
         if show_graph is True:
             heatmap.figure.show()
-        heatmap.figure.savefig("./saved_data/graphs/heatmap_" + dataset_name + ".png")
+        heatmap.figure.savefig("./saved_data/graphs/" + classifier + "_heatmap_" + dataset_name + ".png")
         plt.close()
         print("Done.")
     except Exception as e:

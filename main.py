@@ -69,7 +69,7 @@ render_scatter_bool(knn_genres_dataset, "genres", show_graphs, "Genres", "User R
 render_scatter_int(knn_date_dataset, "release_date", show_graphs, "Release Month", "User Ratings of Release Month")
 #KNN Heatmaps
 for classifier in knn_classifiers:
-    render_heatmap(confusion_to_dataset(classifier.confusion), classifier.dataset_name, show_graphs)
+    render_heatmap(confusion_to_dataset(classifier.confusion), classifier.dataset_name, show_graphs, "knn")
 #Linear Heatmaps
 for classifier in linear_classifiers:
-    render_heatmap(confusion_to_dataset(classifier.confusion), classifier.dataset_name, show_graphs)
+    render_heatmap(confusion_to_dataset(classifier.confusion), classifier.dataset_name, show_graphs, "linear")
