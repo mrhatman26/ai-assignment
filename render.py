@@ -22,7 +22,7 @@ def render_scatter_int(dataset, dataset_name, show_graph, xlabel, title):
     except Exception as e:
         error_exit(e)
 
-def render_scatter_bool(dataset, dataset_name, show_graph, xlabel, title, hide_legend=True):
+def render_scatter_bool(dataset, dataset_name, show_graph, xlabel, title, show_legend=True):
     try:
         map_file = load_dataset_map(dataset_name, True)
         map_file_original = load_dataset_map(dataset_name)
@@ -43,7 +43,7 @@ def render_scatter_bool(dataset, dataset_name, show_graph, xlabel, title, hide_l
             x = np.array(x)
             gca.axes.get_xaxis().set_ticks([]) #Prevent X Axis from showing EVERY element.
             y = np.array(y)
-            if  hide_legend is True:
+            if show_legend is True:
                 plt.scatter(x, y, label=str(map_file_original[pattern - 1]))
                 plt.legend()
             else:
