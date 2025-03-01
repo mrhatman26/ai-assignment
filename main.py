@@ -64,7 +64,7 @@ show_graphs = ask_question("Would you like for the graphs to be shown after gene
 #Datasets Graphs
 render_scatter_bool(knn_age_rating_dataset, "movie_rated", show_graphs, "Age Rating", "User Ratings of Age Ratings")
 render_scatter_int(knn_runtime_dataset, "run_length", show_graphs, "Runtime (Minutes)", "User Ratings of Runtime")
-render_scatter_bool(knn_genres_dataset, "genres", show_graphs, "Genres", "User Ratings of Genres")
+render_scatter_bool(knn_genres_dataset, "genres", show_graphs, "Genres", "User Ratings of Genres", False)
 render_scatter_int(knn_date_dataset, "release_date", show_graphs, "Release Month", "User Ratings of Release Month")
 #KNN Graphs
 #for classifier in knn_classifiers:
