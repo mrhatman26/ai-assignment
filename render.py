@@ -4,7 +4,7 @@ import seaborn
 from setup import clean_normalise_boolean_to_int
 from misc import *
 
-def render_scatter_int(dataset, dataset_name, show_graph, xlabel, title):
+def render_scatter_int(dataset, dataset_name, show_graph, xlabel, title, classifier):
     print("Adding rows to the scattergraph...", end="")
     try:
         for i in range(0, len(dataset)):
@@ -16,13 +16,13 @@ def render_scatter_int(dataset, dataset_name, show_graph, xlabel, title):
         plt.ylabel("User Rating (0-10)")
         if show_graph is True:
             plt.show()
-        plt.savefig("./saved_data/graphs/integer_" + dataset_name + ".png")
+        plt.savefig("./saved_data/graphs/"+ classifier + "_integer_" + dataset_name + ".png")
         plt.close()
         print("Done.")
     except Exception as e:
         error_exit(e)
 
-def render_scatter_bool(dataset, dataset_name, show_graph, xlabel, title, show_legend=True):
+def render_scatter_bool(dataset, dataset_name, show_graph, xlabel, title, classifier, show_legend=True):
     try:
         map_file = load_dataset_map(dataset_name, True)
         map_file_original = load_dataset_map(dataset_name)
@@ -51,7 +51,7 @@ def render_scatter_bool(dataset, dataset_name, show_graph, xlabel, title, show_l
             pattern += 1
         if show_graph is True:
             plt.show()
-        plt.savefig("./saved_data/graphs/boolean_" + dataset_name + ".png")
+        plt.savefig("./saved_data/graphs/" + classifier + "_boolean_" + dataset_name + ".png")
         plt.close()
         print("Done.")        
     except Exception as e:
