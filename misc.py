@@ -1,8 +1,11 @@
 import sys, os, platform, traceback
 import pandas as pd
 
-def pause(): #Stops the program from running by requestiong input. Anything inputted is not used.
-    input("(Press ENTER to continue)")
+def pause(exit=False): #Stops the program from running by requestiong input. Anything inputted is not used.
+    if exit is False:
+        input("(Press ENTER to Continue)")
+    else:
+        input("(Press ENTER to Exit)")
 
 def str_to_int_test(text):
     #Checks if a string can be converted to an integer.
@@ -39,7 +42,7 @@ def error_exit(exception, skip=False):
     print("Failed.\nError: " + str(exception))
     print(str(traceback.format_exc()))
     if skip is False:
-        pause()
+        pause(True)
         sys.exit()
 
 def create_ditto_list(length, value_to_repeat):
