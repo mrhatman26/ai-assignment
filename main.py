@@ -78,3 +78,5 @@ for classifier in knn_classifiers:
 #Linear Heatmaps
 for classifier in linear_classifiers:
     render_heatmap(confusion_to_dataset(classifier.confusion), classifier.dataset_name, show_graphs, "linear")
+print("\n**Model Generation Finished**")
+pause()
