@@ -1,4 +1,5 @@
 import sys, os, platform, traceback
+import pandas as pd
 
 def pause(): #Stops the program from running by requestiong input. Anything inputted is not used.
     input("(Press ENTER to continue)")
@@ -113,3 +114,6 @@ def str_to_list(str_val): #Becase ast literal_eval doesn't damn well work.
     str_val = str_val.replace("[", "").replace("]", "")
     str_val = str_val.split(", ")
     return str_val
+
+def confusion_to_dataset(confusion_matrix):
+    return pd.DataFrame(confusion_matrix, index=range(0, len(confusion_matrix)), columns=range(0, len(confusion_matrix)))

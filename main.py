@@ -62,9 +62,14 @@ for classifier in linear_classifiers:
 print("\n**Generating graphs**")
 show_graphs = ask_question("Would you like for the graphs to be shown after generating them?")
 #Datasets Graphs
+#KNN
 render_scatter_bool(knn_age_rating_dataset, "movie_rated", show_graphs, "Age Rating", "User Ratings of Age Ratings")
 render_scatter_int(knn_runtime_dataset, "run_length", show_graphs, "Runtime (Minutes)", "User Ratings of Runtime")
 render_scatter_bool(knn_genres_dataset, "genres", show_graphs, "Genres", "User Ratings of Genres", False)
 render_scatter_int(knn_date_dataset, "release_date", show_graphs, "Release Month", "User Ratings of Release Month")
-#KNN Graphs
-#for classifier in knn_classifiers:
+#KNN Heatmaps
+for classifier in knn_classifiers:
+    render_heatmap(confusion_to_dataset(classifier.confusion), classifier.dataset_name, show_graphs)
+#Linear Heatmaps
+for classifier in linear_classifiers:
+    render_heatmap(confusion_to_dataset(classifier.confusion), classifier.dataset_name, show_graphs)
