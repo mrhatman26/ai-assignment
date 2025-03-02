@@ -45,6 +45,21 @@ function clearGenres(event){
     }
 }
 
+//Age Functions
+
+//Date Functions
+
+//Runtime functions
+function toInt(value){
+    if (!isNaN(value)){
+        return parseInt(value);
+    }
+    else{
+        return null;
+    }
+}
+
 //Genres Event Listeners
 genre_add.addEventListener("click", addGenre);
 genre_clear.addEventListener("click", clearGenres);
+console.log(toInt("50"));
