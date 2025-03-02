@@ -18,7 +18,9 @@ def home():
 @app.route('/predict/submit/')
 def predict_submit():
     genres = load_dataset_map("genres")
-    return render_template('submit.html', page_name="Submit Data")
+    for i in range(0, len(genres)):
+        genres[i] = genres[i].title()
+    return render_template('submit.html', page_name="Submit Data", genres=genres)
 
 '''Error Pages'''
 @app.errorhandler(404)

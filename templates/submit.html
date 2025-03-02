@@ -5,12 +5,20 @@
                 <h3 id="page_header">Enter Your Movie Details</h3>
                 <div id="page_mainbody_home">
                         <form id="submission_form">
-                                <p>What is your movie's genres?</p>
+                                <h3>What is your movie's genres?</h3>
+                                <p id="selected_genres"></p>
                                 <select id="submission_select_genre" name="submission_select_genre">
-                                        eeee
+                                        {% for item in genres %}
+                                                <option value="{{ item }}">{{ item }}</option>
+                                        {% endfor %}
                                 </select>
+                                <br>
+                                <button id="submission_button_add_genre" name="submission_button_add_genre">Add Genre</button>
+                                <button id="submission_button_clear_genres" name="submission_button_clear_genres">Clear Genres</button>
                         </form>
                 </div>
         </div>
 </div>
+<script src="http://code.jquery.com/jquery.min.js"></script>
+<script src=" {{ url_for('static', filename='scripts/submission.js') }}"></script>
 {% endblock %}

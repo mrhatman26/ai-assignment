@@ -1,1 +1,0 @@
-console.log("linear_submission.js loaded");
