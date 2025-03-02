@@ -1,5 +1,6 @@
 import sys, os, platform, traceback, shutil
 import pandas as pd
+from file_paths import *
 
 def pause(exit=False): #Stops the program from running by requestiong input. Anything inputted is not used.
     if exit is False:
@@ -59,26 +60,22 @@ def create_ditto_list(length, value_to_repeat):
 def check_save_dir_exists():
     #Makes sure ./saved_data/ and ./saved_data/models/ directories exist.
     #If they don't they are created.
-    if os.path.exists("./saved_data/") is not True:
-        os.makedirs("./saved_data/")
-    if os.path.exists("./saved_data/models/") is not True:
-        os.makedirs("./saved_data/models/")
-    if os.path.exists("./saved_data/models/knn/") is not True:
-        os.makedirs("./saved_data/models/knn/")
-    if os.path.exists("./saved_data/models/linear/") is not True:
-        os.makedirs("./saved_data/models/linear/")
-    if os.path.exists("./saved_data/graphs/") is not True:
-        os.makedirs("./saved_data/graphs/")
-    if os.path.exists("./saved_data/maps/") is not True:
-        os.makedirs("./saved_data/maps/")
+    if os.path.exists(saved_data_dir) is not True:
+        os.makedirs(saved_data_dir)
+    if os.path.exists(saved_models_dir) is not True:
+        os.makedirs(saved_models_dir)
+    if os.path.exists(saved_models_knn_dir) is not True:
+        os.makedirs(saved_models_knn_dir)
+    if os.path.exists(saved_models_linear_dir) is not True:
+        os.makedirs(saved_models_linear_dir)
+    if os.path.exists(saved_graphs_dir) is not True:
+        os.makedirs(saved_graphs_dir)
+    if os.path.exists(saved_maps_dir) is not True:
+        os.makedirs(saved_maps_dir)
 
 def check_and_move_models_knn():
     try:
         print("Moving KNN models to static...", end="")
-        saved_models_dir = "./saved_data/models/"
-        saved_models_knn_dir = "./saved_data/models/knn/"
-        static_models_dir = "./static/models/"
-        static_models_knn_dir = "./static/models/knn/"
         #Check KNN models exist and copy them to static
         if os.path.exists(saved_models_dir) is True:
             if os.path.exists(saved_models_knn_dir) is True:
@@ -105,10 +102,6 @@ def check_and_move_models_knn():
 def check_and_move_models_linear():
     try:
         print("Moving linear models to static...", end="")
-        saved_models_dir = "./saved_data/models/"
-        saved_models_linear_dir = "./saved_data/models/linear/"
-        static_models_dir = "./static/models/"
-        static_models_linear_dir = "./static/models/linear/"
         #Check KNN models exist and copy them to static
         if os.path.exists(saved_models_dir) is True:
             if os.path.exists(saved_models_linear_dir) is True:
@@ -135,8 +128,6 @@ def check_and_move_models_linear():
 def check_and_move_maps():
     try:
         print("Moving maps to static...", end="")
-        saved_maps_dir = "./saved_data/maps/"
-        static_maps_dir = "./static/maps/"
         #Check maps exist and copy them to static
         if os.path.exists(saved_maps_dir):
             if len(os.listdir(saved_maps_dir)) > 0:
@@ -169,11 +160,11 @@ def load_dataset_map(dataset_name, is_bool=False, is_static=False):
     try:
         if is_bool is False:
             if is_static is False:
-                map_path = "./saved_data/maps/" + dataset_name + "_unique_vals.txt"
+                map_path = saved_maps_dir + dataset_name + "_unique_vals.txt"
             else:
                 map_path = ""
         else:
-            map_path = "./saved_data/maps/" + dataset_name + "_unique_vals_int_to_bool.txt"
+            map_path = saved_maps_dir + dataset_name + "_unique_vals_int_to_bool.txt"
         print("Opening " + map_path)
         map_file = open(map_path, "r")
         map_list = []

@@ -1,5 +1,6 @@
 import pandas as pd
 from misc import *
+from file_paths import *
 
 def clean_remove_unused(dataset):
     print("**Cleaning data**")
@@ -19,7 +20,7 @@ def clean_remove_unused(dataset):
     #Finally, save the modified dataset
     try:
         print("Saving modified dataset...", end="")
-        dataset.to_csv("./saved_data/Movie Dataset (Remove Unused Columns).csv", sep=",")
+        dataset.to_csv(saved_data_dir + "/Movie Dataset (Remove Unused Columns).csv", sep=",")
         print("Done.")
     except Exception as e:
         print("Failed.")
@@ -63,13 +64,13 @@ def clean_normalise_boolean_to_int(dataset, column_name):
         error_exit(e)
     try:
         print("Saving modified dataset...", end="")
-        dataset.to_csv("./saved_data/Movie Dataset (Boolean to Integer Normalisation of " + column_name + ").csv", sep=",")
+        dataset.to_csv(saved_data_dir + "Movie Dataset (Boolean to Integer Normalisation of " + column_name + ").csv", sep=",")
         print("Done.")
     except Exception as e:
         error_exit(e)
     try:
         print("Saving unique value list to file...", end="")
-        unique_vals_file = open("./saved_data/maps/" + column_name + "_unique_vals_int_to_bool.txt", "w")
+        unique_vals_file = open(saved_maps_dir + column_name + "_unique_vals_int_to_bool.txt", "w")
         for item in unique_vals:
             unique_vals_file.write(str(item) + "\n")
         unique_vals_file.close()
@@ -127,13 +128,13 @@ def clean_normalise_boolean(dataset, column_name, split_type=None):
         error_exit(e)
     try:
         print("Saving modified dataset...", end="")
-        dataset.to_csv("./saved_data/Movie Dataset (Normalise " + column_name + ").csv", sep=",")
+        dataset.to_csv(saved_data_dir + "Movie Dataset (Normalise " + column_name + ").csv", sep=",")
         print("Done.")
     except Exception as e:
         print("Failed.")
     try:
         print("Saving unique value list to file...", end="")
-        unique_vals_file = open("./saved_data/maps/" + column_name + "_unique_vals.txt", "w")
+        unique_vals_file = open(saved_maps_dir + column_name + "_unique_vals.txt", "w")
         for item in unique_vals:
             unique_vals_file.write(item + "\n")
         unique_vals_file.close()
@@ -166,7 +167,7 @@ def clean_normalise_months(dataset):
     try:
         #After this, save the dataset.
         print("Saving modified dataset...", end="")
-        dataset.to_csv("./saved_data/Movie Dataset (Normalise months).csv", sep=",")
+        dataset.to_csv(saved_data_dir + "Movie Dataset (Normalise months).csv", sep=",")
         print("Done.")
     except Exception as e:
         print("Failed.")
@@ -218,7 +219,7 @@ def clean_normalise_runtime(dataset):
     try:
         #After this, save the dataset.
         print("Saving modified dataset...", end="")
-        dataset.to_csv("./saved_data/Movie Dataset (Normalise runtime).csv", sep=",")
+        dataset.to_csv(saved_data_dir + "Movie Dataset (Normalise runtime).csv", sep=",")
         print("Done.")
     except Exception as e:
         print("Failed.")

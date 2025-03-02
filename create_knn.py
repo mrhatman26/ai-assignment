@@ -1,5 +1,6 @@
 import numpy as np
 import pickle as pk
+from file_paths import *
 from sklearn.model_selection import train_test_split #Importing of the required modules from sklearn to allow for the training of the A.I.
 #test_train_split splits the data between training data and test data/
 from sklearn.neighbors import KNeighborsClassifier #KNN is what I've used to train the A.I
@@ -127,7 +128,7 @@ class KNNCreator():
         #All models are saved to "./saved_data/models/knn/" for clarity.
         try:
             print("Saving " + self.dataset_name + " model using pickle...", end="")
-            model_pickle_file = open("./saved_data/models/knn/" + self.dataset_name + "_model", "wb") #Open or create a file to save the model using pickle. "wb" is binary write mode.
+            model_pickle_file = open(saved_models_knn_dir + self.dataset_name + "_model", "wb") #Open or create a file to save the model using pickle. "wb" is binary write mode.
             pk.dump(self.classifier, model_pickle_file)
             model_pickle_file.close()
             print("Done.")
