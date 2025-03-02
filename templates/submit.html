@@ -39,6 +39,14 @@
                                 </select>
                                 <h3>What is your movies runtime in minutes?:</h3>
                                 <input class="textbox" type="text" id="submission_text_runtime" name="form_submission_text_runtime" required placeholder="60">
+                                <br>
+                                <h3>What model do you want to use for prediction?</h3>
+                                <select id="submission_select_model" name="form_submission_select_model" required>
+                                        <option value="knn">K-Nearest Neighbours</option>
+                                        <option value="linear">Linear Regression</option>
+                                </select>
+                                <br>
+                                <input type="submit" value="Submit" class="submit_button">
                         </form>
                 </div>
         </div>
