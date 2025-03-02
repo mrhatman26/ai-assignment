@@ -15,6 +15,11 @@ deployed = False
 def home():
     return render_template('home.html', page_name="IMDb Rating Predictor")
 
+@app.route('/predict/submit/')
+def predict_submit():
+    genres = load_dataset_map("genres")
+    return render_template('submit.html', page_name="Submit Data")
+
 '''Error Pages'''
 @app.errorhandler(404)
 def page_invalid(e):

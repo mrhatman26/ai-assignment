@@ -165,10 +165,13 @@ def ask_question(message):
             pause()
             print("\n")
 
-def load_dataset_map(dataset_name, is_bool=False):
+def load_dataset_map(dataset_name, is_bool=False, is_static=False):
     try:
         if is_bool is False:
-            map_path = "./saved_data/maps/" + dataset_name + "_unique_vals.txt"
+            if is_static is False:
+                map_path = "./saved_data/maps/" + dataset_name + "_unique_vals.txt"
+            else:
+                map_path = ""
         else:
             map_path = "./saved_data/maps/" + dataset_name + "_unique_vals_int_to_bool.txt"
         print("Opening " + map_path)
