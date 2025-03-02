@@ -180,6 +180,25 @@ def load_dataset_map(dataset_name, is_bool=False, is_static=False):
     except Exception as e:
         return None
     
+def get_model_path(dataset_name, model="knn", is_static=False):
+    try:
+        print("Getting model path...", end="")
+        if is_static is False:
+            if model == "knn":
+                model_path = saved_models_knn_dir + dataset_name + "_model"
+            else:
+                model_path = saved_models_linear_dir + dataset_name + "_model"
+        else:
+            if model == "knn":
+                model_path = static_models_knn_dir + dataset_name + "_model"
+            else:
+                model_path = static_models_linear_dir + dataset_name + "_model"
+        print("Done.\nPath is " + model_path)
+        return model_path
+    except Exception as e:
+        error_exit(e, skip=True)
+        return None
+    
 def check_list_bool(list_val):
     is_bool = True
     for item in list_val:
@@ -197,3 +216,14 @@ def str_to_list(str_val): #Becase ast literal_eval doesn't damn well work.
 
 def confusion_to_dataset(confusion_matrix):
     return pd.DataFrame(confusion_matrix, index=range(0, len(confusion_matrix)), columns=range(0, len(confusion_matrix)))
+
+def input_to_map(actual_data, map_data, is_bool=False):
+    if is_bool is False:
+        pass
+    else:
+        map_list = create_ditto_list(len(map_data), 0)
+        for item in actual_data:
+            item = item.lower()
+            if item in map_data:
+                map_list[map_data.index(item)] = 1
+        return map_list

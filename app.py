@@ -1,4 +1,5 @@
 import ast
+import pickle as pk
 from flask import Flask, render_template, url_for, request, redirect, abort
 from misc import *
 
@@ -33,7 +34,27 @@ def predict_validate():
     model_data = ast.literal_eval(model_data)
     for key, value in model_data.items():
         print(str(key) + ": " + str(value) + " (" + str(type(value)) + ")", flush=True)
-    print(type(model_data["submission_genre"]), flush=True)
+    #Open model files
+    genre_model_file = open(get_model_path("genres", model_data["submission_model"], True), "rb")
+    age_model_file = open(get_model_path("movie_rated", model_data["submission_model"], True), "rb")
+    date_model_file = open(get_model_path("release_date", model_data["submission_model"], True), "rb")
+    runtime_model_file = open(get_model_path("run_length", model_data["submission_model"], True), "rb")
+    #Load models
+    genre_model = pk.load(genre_model_file)
+    age_model = pk.load(age_model_file)
+    date_model = pk.load(date_model_file)
+    runtime_model = pk.load(runtime_model_file)
+    #Close files
+    genre_model_file.close()
+    age_model_file.close()
+    date_model_file.close()
+    runtime_model_file.close()
+    #Run models
+    print(input_to_map(model_data["submission_genre"], load_dataset_map("genres", is_static=True), is_bool=True))
+    '''if model_data["submission_model"] == "knn":
+        genre_model.predict(X=input_to_map(model_data["submission_genre"], load_dataset_map("genres", is_static=True), ", ", is_bool=True))
+    else:
+        pass'''
     return redirect('/')
 
 '''Error Pages'''
