@@ -5,3 +5,32 @@ from misc import *
 check_and_move_models_knn()
 check_and_move_models_linear()
 check_and_move_maps()
+
+'''Server Vars'''
+app = Flask(__name__)
+deployed = False
+
+'''General Routes'''
+@app.route('/')
+def home():
+    return render_template('home.html', page_name="IMDb Rating Predictor")
+
+'''Error Pages'''
+@app.errorhandler(404)
+def page_invalid(e):
+    return render_template('errors/404.html'), 404
+@app.errorhandler(405)
+def page_wrong_method(e):
+    abort(404)
+
+'''Favicon Supression'''
+@app.route('/favicon.ico')
+def favicon():
+    return url_for("static", filename="favicon.ico")
+
+if __name__ == '__main__':
+    if deployed is True:
+        from waitress import serve
+        serve(app, host="0.0.0.0", port=5000)
+    else:
+        app.run(host="0.0.0.0", debug=True)
