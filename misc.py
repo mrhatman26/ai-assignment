@@ -1,4 +1,4 @@
-import sys, os, platform, traceback
+import sys, os, platform, traceback, shutil
 import pandas as pd
 
 def pause(exit=False): #Stops the program from running by requestiong input. Anything inputted is not used.
@@ -71,6 +71,86 @@ def check_save_dir_exists():
         os.makedirs("./saved_data/graphs/")
     if os.path.exists("./saved_data/maps/") is not True:
         os.makedirs("./saved_data/maps/")
+
+def check_and_move_models_knn():
+    try:
+        print("Moving KNN models to static...", end="")
+        saved_models_dir = "./saved_data/models/"
+        saved_models_knn_dir = "./saved_data/models/knn/"
+        static_models_dir = "./static/models/"
+        static_models_knn_dir = "./static/models/knn/"
+        #Check KNN models exist and copy them to static
+        if os.path.exists(saved_models_dir) is True:
+            if os.path.exists(saved_models_knn_dir) is True:
+                if len(os.listdir(saved_models_knn_dir)) > 0:
+                    if len(os.listdir(saved_models_knn_dir)) == 4:
+                        if os.path.exists(static_models_dir) is False:
+                            os.makedirs(static_models_dir)
+                        if os.path.exists(static_models_knn_dir) is False:
+                            os.makedirs(static_models_knn_dir)
+                        shutil.rmtree(static_models_knn_dir)
+                        shutil.copytree(saved_models_knn_dir, static_models_knn_dir)
+                    else:
+                        raise Exception("KNN directory does not have enough models. Expected 4 models got " + str(len(os.listdir(saved_models_knn_dir))))
+                else:
+                    raise Exception("KNN directory has no models.")
+            else:
+                raise Exception("KNN directory does not exist in models directory.")
+        else:
+            raise Exception("Models directory does not exist.")
+    except Exception as e:
+        error_exit(e)
+    print("Done.")
+
+def check_and_move_models_linear():
+    try:
+        print("Moving linear models to static...", end="")
+        saved_models_dir = "./saved_data/models/"
+        saved_models_linear_dir = "./saved_data/models/linear/"
+        static_models_dir = "./static/models/"
+        static_models_linear_dir = "./static/models/linear/"
+        #Check KNN models exist and copy them to static
+        if os.path.exists(saved_models_dir) is True:
+            if os.path.exists(saved_models_linear_dir) is True:
+                if len(os.listdir(saved_models_linear_dir)) > 0:
+                    if len(os.listdir(saved_models_linear_dir)) == 4:
+                        if os.path.exists(static_models_dir) is False:
+                            os.makedirs(static_models_dir)
+                        if os.path.exists(static_models_linear_dir) is False:
+                            os.makedirs(static_models_linear_dir)
+                        shutil.rmtree(static_models_linear_dir)
+                        shutil.copytree(saved_models_linear_dir, static_models_linear_dir)
+                    else:
+                        raise Exception("KNN directory does not have enough models. Expected 4 models got " + str(len(os.listdir(saved_models_linear_dir))))
+                else:
+                    raise Exception("KNN directory has no models.")
+            else:
+                raise Exception("KNN directory does not exist in models directory.")
+        else:
+            raise Exception("Models directory does not exist.")
+    except Exception as e:
+        error_exit(e)
+    print("Done.")
+
+def check_and_move_maps():
+    try:
+        print("Moving maps to static...", end="")
+        saved_maps_dir = "./saved_data/maps/"
+        static_maps_dir = "./static/maps/"
+        #Check maps exist and copy them to static
+        if os.path.exists(saved_maps_dir):
+            if len(os.listdir(saved_maps_dir)) > 0:
+                if os.path.exists(static_maps_dir) is False:
+                    os.makedirs(static_maps_dir)
+                shutil.rmtree(static_maps_dir)
+                shutil.copytree(saved_maps_dir, static_maps_dir)
+            else:
+                raise Exception("Maps directory is empty.")
+        else:
+            raise Exception("Maps directory does not exist.")
+    except Exception as e:
+        error_exit(e)
+    print("Done.")
 
 def ask_question(message):
     while True:
