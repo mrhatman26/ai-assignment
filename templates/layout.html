@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>{{ page_name }}</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" media="(orientation: landscape)">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style_phone.css') }}" media="(orientation: portrait)">
+    </head>
+    <body>
+        <div id="title">
+            <h1>IMBDb User Rating Predictor</h1>
+        </div>
+        <div class="main">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </body>
+</html>
