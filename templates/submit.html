@@ -6,15 +6,15 @@
                 <div id="page_mainbody_home">
                         <form id="submission_form">
                                 <h3>What is your movie's genres?</h3>
-                                <p id="selected_genres"></p>
-                                <select id="submission_select_genre" name="submission_select_genre">
+                                <p id="selected_genres">Selected: None</p>
+                                <select id="submission_select_genre" name="form_submission_select_genre">
                                         {% for item in genres %}
                                                 <option value="{{ item }}">{{ item }}</option>
                                         {% endfor %}
                                 </select>
                                 <br>
-                                <button id="submission_button_add_genre" name="submission_button_add_genre">Add Genre</button>
-                                <button id="submission_button_clear_genres" name="submission_button_clear_genres">Clear Genres</button>
+                                <button id="submission_button_add_genre" name="form_submission_button_add_genre">Add Genre</button>
+                                <button id="submission_button_clear_genres" name="form_submission_button_clear_genres">Clear Genres</button>
                         </form>
                 </div>
         </div>
