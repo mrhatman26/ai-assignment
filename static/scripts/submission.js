@@ -64,26 +64,50 @@ function toInt(value){
 
 //Submit function
 function submit_data(event){
-    //event.preventDefault();
+    event.preventDefault();
     if (selected_genres_array.length < 1){
         var error_message = document.createElement("p");
         error_message.innerHTML = "Please select atleast one genre.";
         error_message.style.color = "red";
         document.getElementById("page_header").appendChild(error_message).scrollTo();
+        return;
     }
-    //if (runtime_select.value === "")
+    if (runtime_select.value == ""){
+        var error_message = document.createElement("p");
+        error_message.innerHTML = "Please enter a runtime.";
+        error_message.style.color = "red";
+        document.getElementById("page_header").appendChild(error_message).scrollTo();
+        return;
+    }
+    if (toInt(runtime_select.value) === null){
+        var error_message = document.createElement("p");
+        error_message.innerHTML = "Runtime must be a whole number.";
+        error_message.style.color = "red";
+        document.getElementById("page_header").appendChild(error_message).scrollTo();
+        return;
+    }
+    if (toInt(runtime_select.value) < 1){
+        var error_message = document.createElement("p");
+        error_message.innerHTML = "Runtime must be a valid number.";
+        error_message.style.color = "red";
+        document.getElementById("page_header").appendChild(error_message).scrollTo();
+        return;
+    }
     var submission_data = {
         "submission_genre": selected_genres_array,
         "submission_age": age_select.value,
         "submission_month": month_select.value,
-        "submission_runtime": runtime_select.value,
+        "submission_runtime": toInt(runtime_select.value),
         "submission_model": model_select.value
     };
-    console.log(submission_data["submission_genre"]);
-    console.log(submission_data["submission_age"]);
-    console.log(submission_data["submission_month"]);
-    console.log(submission_data["submission_runtime"]);
-    console.log(submission_data["submission_model"]);
+    $.ajax({
+        type: "POST",
+        url: "/predict/validate/",
+        data: JSON.stringify(submission_data),
+        success: function(response){
+            console.log(response);
+        }
+    })
 }
 
 //Genres Event Listeners

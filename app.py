@@ -1,3 +1,4 @@
+import ast
 from flask import Flask, render_template, url_for, request, redirect, abort
 from misc import *
 
@@ -24,6 +25,16 @@ def predict_submit():
     for i in range(0, len(age_ratings)):
         age_ratings[i] = age_ratings[i].title()
     return render_template('submit.html', page_name="Submit Data", genres=genres, age_ratings=age_ratings)
+
+@app.route('/predict/validate/', methods=['POST'])
+def predict_validate():
+    model_data = request.get_data()
+    model_data = model_data.decode()
+    model_data = ast.literal_eval(model_data)
+    for key, value in model_data.items():
+        print(str(key) + ": " + str(value) + " (" + str(type(value)) + ")", flush=True)
+    print(type(model_data["submission_genre"]), flush=True)
+    return redirect('/')
 
 '''Error Pages'''
 @app.errorhandler(404)
