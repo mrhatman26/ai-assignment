@@ -17,10 +17,13 @@ def home():
 
 @app.route('/predict/submit/')
 def predict_submit():
-    genres = load_dataset_map("genres")
+    genres = load_dataset_map("genres", is_static=True)
     for i in range(0, len(genres)):
         genres[i] = genres[i].title()
-    return render_template('submit.html', page_name="Submit Data", genres=genres)
+    age_ratings = load_dataset_map("movie_rated", is_static=True)
+    for i in range(0, len(age_ratings)):
+        age_ratings[i] = age_ratings[i].title()
+    return render_template('submit.html', page_name="Submit Data", genres=genres, age_ratings=age_ratings)
 
 '''Error Pages'''
 @app.errorhandler(404)

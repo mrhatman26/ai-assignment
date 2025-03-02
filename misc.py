@@ -162,9 +162,12 @@ def load_dataset_map(dataset_name, is_bool=False, is_static=False):
             if is_static is False:
                 map_path = saved_maps_dir + dataset_name + "_unique_vals.txt"
             else:
-                map_path = ""
+                map_path = static_maps_dir + dataset_name + "_unique_vals.txt"
         else:
-            map_path = saved_maps_dir + dataset_name + "_unique_vals_int_to_bool.txt"
+            if is_static is False:
+                map_path = saved_maps_dir + dataset_name + "_unique_vals_int_to_bool.txt"
+            else:
+                map_path = static_maps_dir + dataset_name + "_unique_vals_int_to_bool.txt"
         print("Opening " + map_path)
         map_file = open(map_path, "r")
         map_list = []

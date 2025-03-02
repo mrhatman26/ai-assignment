@@ -5,7 +5,7 @@
                 <h3 id="page_header">Enter Your Movie Details</h3>
                 <div id="page_mainbody_home">
                         <form id="submission_form">
-                                <h3>What is your movie's genres?</h3>
+                                <h3>What is your movie's genres?:</h3>
                                 <p id="selected_genres">Selected: None</p>
                                 <select id="submission_select_genre" name="form_submission_select_genre">
                                         {% for item in genres %}
@@ -15,6 +15,30 @@
                                 <br>
                                 <button id="submission_button_add_genre" name="form_submission_button_add_genre">Add Genre</button>
                                 <button id="submission_button_clear_genres" name="form_submission_button_clear_genres">Clear Genres</button>
+                                <br>
+                                <h3>What is your is your movie's age rating?:</h3>
+                                <select id="submission_select_age" name="form_submission_select_age" required>
+                                        {% for item in age_ratings %}
+                                                <option value="{{ item }}">{{ item }}</option>
+                                        {% endfor %}
+                                </select>
+                                <h3>What month do you plan to release your movie?:</h3>
+                                <select id="submission_select_month" name="form_submission_select_month" required>
+                                        <option value="1">January</option>
+                                        <option value="2">February</option>
+                                        <option value="3">March</option>
+                                        <option value="4">April</option>
+                                        <option value="5">May</option>
+                                        <option value="6">June</option>
+                                        <option value="7">July</option>
+                                        <option value="8">August</option>
+                                        <option value="9">September</option>
+                                        <option value="10">October</option>
+                                        <option value="11">November</option>
+                                        <option value="12">December</option>
+                                </select>
+                                <h3>What is your movies runtime in minutes?:</h3>
+                                <input class="textbox" type="text" id="submission_text_runtime" name="form_submission_text_runtime" required placeholder="60">
                         </form>
                 </div>
         </div>
