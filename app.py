@@ -69,7 +69,11 @@ def predict_validate():
         age_input = np.array(list(age_input), dtype=int)
         age_input = age_input.reshape(1, -1)
         age_output = age_model.predict(X=age_input)
-        print(age_output)
+        #Date model
+        date_input = int(model_data["submission_month"]) - 1
+        date_input = np.array(date_input, dtype=int)
+        date_input = date_input.reshape(1, -1)
+        date_output = date_model.predict(X=date_input)
     else:
         pass
     '''if model_data["submission_model"] == "knn":
