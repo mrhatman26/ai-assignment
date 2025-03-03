@@ -1,5 +1,6 @@
 import ast
 import pickle as pk
+import numpy as np
 from flask import Flask, render_template, url_for, request, redirect, abort
 from misc import *
 
@@ -49,8 +50,22 @@ def predict_validate():
     age_model_file.close()
     date_model_file.close()
     runtime_model_file.close()
+    #Declare output vars
+    genres_output = None
+    age_output = None
+    date_output = None
+    runtime_output = None
     #Run models
-    print(input_to_map(model_data["submission_genre"], load_dataset_map("genres", is_static=True), is_bool=True))
+    if model_data["submission_model"] == "knn":
+        #Genres model
+        genres_map = load_dataset_map("genres", is_static=True)
+        genres_input = input_to_map(model_data["submission_genre"], genres_map, is_bool=True)
+        genres_input = np.array(list(genres_input), dtype=int)
+        genres_input = genres_input.reshape(1, -1)
+        genres_output = genre_model.predict(X=genres_input)
+        #Age model
+    else:
+        pass
     '''if model_data["submission_model"] == "knn":
         genre_model.predict(X=input_to_map(model_data["submission_genre"], load_dataset_map("genres", is_static=True), ", ", is_bool=True))
     else:
