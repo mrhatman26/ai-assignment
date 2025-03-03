@@ -30,57 +30,64 @@ def predict_submit():
 
 @app.route('/predict/validate/', methods=['POST'])
 def predict_validate():
-    model_data = request.get_data()
-    model_data = model_data.decode()
-    model_data = ast.literal_eval(model_data)
-    for key, value in model_data.items():
-        print(str(key) + ": " + str(value) + " (" + str(type(value)) + ")", flush=True)
-    #Open model files
-    genre_model_file = open(get_model_path("genres", model_data["submission_model"], True), "rb")
-    age_model_file = open(get_model_path("movie_rated", model_data["submission_model"], True), "rb")
-    date_model_file = open(get_model_path("release_date", model_data["submission_model"], True), "rb")
-    runtime_model_file = open(get_model_path("run_length", model_data["submission_model"], True), "rb")
-    #Load models
-    genre_model = pk.load(genre_model_file)
-    age_model = pk.load(age_model_file)
-    date_model = pk.load(date_model_file)
-    runtime_model = pk.load(runtime_model_file)
-    #Close files
-    genre_model_file.close()
-    age_model_file.close()
-    date_model_file.close()
-    runtime_model_file.close()
-    #Declare output vars
-    genres_output = None
-    age_output = None
-    date_output = None
-    runtime_output = None
-    #Run models
-    if model_data["submission_model"] == "knn":
-        #Genres model
-        genres_map = load_dataset_map("genres", is_static=True)
-        genres_input = input_to_map(model_data["submission_genre"], genres_map, is_bool=True)
-        genres_input = np.array(list(genres_input), dtype=int)
-        genres_input = genres_input.reshape(1, -1)
-        genres_output = genre_model.predict(X=genres_input)
-        #Age model
-        age_map = load_dataset_map("movie_rated", is_static=True)
-        age_input = input_to_map(model_data["submission_age"].lower(), age_map, is_bool=True)
-        age_input = np.array(list(age_input), dtype=int)
-        age_input = age_input.reshape(1, -1)
-        age_output = age_model.predict(X=age_input)
-        #Date model
-        date_input = int(model_data["submission_month"]) - 1
-        date_input = np.array(date_input, dtype=int)
-        date_input = date_input.reshape(1, -1)
-        date_output = date_model.predict(X=date_input)
-    else:
-        pass
-    '''if model_data["submission_model"] == "knn":
-        genre_model.predict(X=input_to_map(model_data["submission_genre"], load_dataset_map("genres", is_static=True), ", ", is_bool=True))
-    else:
-        pass'''
-    return redirect('/')
+    try:
+        model_data = request.get_data()
+        model_data = model_data.decode()
+        model_data = ast.literal_eval(model_data)
+        for key, value in model_data.items():
+            print(str(key) + ": " + str(value) + " (" + str(type(value)) + ")", flush=True)
+        #Open model files
+        genre_model_file = open(get_model_path("genres", model_data["submission_model"], True), "rb")
+        age_model_file = open(get_model_path("movie_rated", model_data["submission_model"], True), "rb")
+        date_model_file = open(get_model_path("release_date", model_data["submission_model"], True), "rb")
+        runtime_model_file = open(get_model_path("run_length", model_data["submission_model"], True), "rb")
+        #Load models
+        genre_model = pk.load(genre_model_file)
+        age_model = pk.load(age_model_file)
+        date_model = pk.load(date_model_file)
+        runtime_model = pk.load(runtime_model_file)
+        #Close files
+        genre_model_file.close()
+        age_model_file.close()
+        date_model_file.close()
+        runtime_model_file.close()
+        #Declare output vars
+        genres_output = None
+        age_output = None
+        date_output = None
+        runtime_output = None
+        #Run models
+        if model_data["submission_model"] == "knn":
+            #Genres model
+            genres_map = load_dataset_map("genres", is_static=True)
+            genres_input = input_to_map(model_data["submission_genre"], genres_map, is_bool=True)
+            genres_input = np.array(list(genres_input), dtype=int)
+            genres_input = genres_input.reshape(1, -1)
+            genres_output = genre_model.predict(X=genres_input)
+            #Age model
+            age_map = load_dataset_map("movie_rated", is_static=True)
+            age_input = input_to_map(model_data["submission_age"].lower(), age_map, is_bool=True)
+            age_input = np.array(list(age_input), dtype=int)
+            age_input = age_input.reshape(1, -1)
+            age_output = age_model.predict(X=age_input)
+            #Date model
+            date_input = int(model_data["submission_month"]) - 1
+            date_input = np.array(date_input, dtype=int)
+            date_input = date_input.reshape(1, -1)
+            date_output = date_model.predict(X=date_input)
+            #Runtime model
+            runtime_input = int(model_data["submission_runtime"])
+            runtime_input = np.array(runtime_input, dtype=int)
+            runtime_input = runtime_input.reshape(1, -1)
+            runtime_output = runtime_model.predict(X=runtime_input)
+            #Average outputs
+            final_output = genres_output + age_output + date_output + runtime_output
+            final_output = final_output / 4
+            return final_output
+        else:
+            pass
+    except:
+        return "failed"
 
 '''Error Pages'''
 @app.errorhandler(404)
