@@ -105,7 +105,15 @@ function submit_data(event){
         url: "/predict/validate/",
         data: JSON.stringify(submission_data),
         success: function(response){
-            console.log(response);
+            if (response === "failed"){
+                var error_message = document.createElement("p");
+                error_message.innerHTML = "An error occurred when predicting your movie's user rating.\nPlease try again.";
+                error_message.style.color = "red";
+                document.getElementById("page_header").appendChild(error_message).scrollTo();
+            }
+            else{
+                window.location.replace("/predict/output/output=" + response);
+            }
         }
     })
 }

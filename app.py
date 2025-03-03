@@ -83,11 +83,15 @@ def predict_validate():
             #Average outputs
             final_output = genres_output + age_output + date_output + runtime_output
             final_output = final_output / 4
-            return final_output
+            return str(final_output[0])
         else:
             pass
     except:
         return "failed"
+    
+@app.route('/predict/output/output=<output>')
+def predict_output(output):
+    return render_template('output.html', page_name="Movie User Rating", score=output)
 
 '''Error Pages'''
 @app.errorhandler(404)
