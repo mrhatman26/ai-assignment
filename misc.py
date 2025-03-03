@@ -219,7 +219,7 @@ def confusion_to_dataset(confusion_matrix):
 
 def input_to_map(actual_data, map_data, is_bool=False):
     if is_bool is False:
-        pass
+        return map_data.index(actual_data)
     else:
         map_list = create_ditto_list(len(map_data), 0)
         for item in actual_data:

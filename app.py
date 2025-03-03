@@ -64,6 +64,12 @@ def predict_validate():
         genres_input = genres_input.reshape(1, -1)
         genres_output = genre_model.predict(X=genres_input)
         #Age model
+        age_map = load_dataset_map("movie_rated", is_static=True)
+        age_input = input_to_map(model_data["submission_age"].lower(), age_map, is_bool=True)
+        age_input = np.array(list(age_input), dtype=int)
+        age_input = age_input.reshape(1, -1)
+        age_output = age_model.predict(X=age_input)
+        print(age_output)
     else:
         pass
     '''if model_data["submission_model"] == "knn":
