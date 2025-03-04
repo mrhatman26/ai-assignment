@@ -3,6 +3,7 @@ import numpy as np
 import seaborn
 from setup import clean_normalise_boolean_to_int
 from misc import *
+from file_paths import *
 
 def render_scatter_int(dataset, dataset_name, show_graph, xlabel, title, classifier):
     print("Adding rows to the scattergraph...", end="")
@@ -16,7 +17,7 @@ def render_scatter_int(dataset, dataset_name, show_graph, xlabel, title, classif
         plt.ylabel("User Rating (0-10)")
         if show_graph is True:
             plt.show()
-        plt.savefig("./saved_data/graphs/"+ classifier + "_integer_" + dataset_name + ".png")
+        plt.savefig(saved_graphs_dir + classifier + "_integer_" + dataset_name + ".png")
         plt.close()
         print("Done.")
     except Exception as e:
@@ -51,7 +52,7 @@ def render_scatter_bool(dataset, dataset_name, show_graph, xlabel, title, classi
             pattern += 1
         if show_graph is True:
             plt.show()
-        plt.savefig("./saved_data/graphs/" + classifier + "_boolean_" + dataset_name + ".png")
+        plt.savefig(saved_graphs_dir + classifier + "_boolean_" + dataset_name + ".png")
         plt.close()
         print("Done.")        
     except Exception as e:
@@ -63,7 +64,23 @@ def render_heatmap(dataset, dataset_name, show_graph, classifier):
         heatmap = seaborn.heatmap(dataset, annot=True, cmap='nipy_spectral_r')
         if show_graph is True:
             heatmap.figure.show()
-        heatmap.figure.savefig("./saved_data/graphs/" + classifier + "_heatmap_" + dataset_name + ".png")
+        heatmap.figure.savefig(saved_graphs_dir + classifier + "_heatmap_" + dataset_name + ".png")
+        plt.close()
+        print("Done.")
+    except Exception as e:
+        error_exit(e)
+
+def render_classification_bar(dataset_name, show_graph, classifier):
+    try:
+        print("Creating a bar chart for the " + dataset_name + " model's classification report...", end="")
+        plt.bar([len(classifier.confusion_accuracy)], classifier.confusion_accuracy, 0.2, label="Accuracy")
+        plt.bar([len(classifier.confusion_recall)], classifier.confusion_recall, 0.2, label="Recall")
+        plt.bar([len(classifier.confusion_precision)], classifier.confusion_precision, 0.2, label="Precision")
+        plt.bar([len(classifier.confusion_f1)], classifier.confusion_f1, 0.2, label="F1 Score")
+        plt.ylabel = "Score"
+        if show_graph is True:
+            plt.show()
+        plt.savefig(saved_graphs_dir + dataset_name + "_bar.png")
         plt.close()
         print("Done.")
     except Exception as e:

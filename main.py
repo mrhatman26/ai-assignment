@@ -67,11 +67,19 @@ render_scatter_bool(knn_age_rating_dataset, "movie_rated", show_graphs, "Age Rat
 render_scatter_int(knn_runtime_dataset, "run_length", show_graphs, "Runtime (Minutes)", "User Ratings of Runtime", "knn")
 render_scatter_bool(knn_genres_dataset, "genres", show_graphs, "Genres", "User Ratings of Genres", "knn", False)
 render_scatter_int(knn_date_dataset, "release_date", show_graphs, "Release Month", "User Ratings of Release Month", "knn")
+render_classification_bar("movie_rated", show_graphs, knn_age_classifier)
+render_classification_bar("run_length", show_graphs, knn_length_classifier)
+render_classification_bar("genres", show_graphs, knn_genre_classifier)
+render_classification_bar("release_date", show_graphs, knn_date_classifier)
 #Linear
 render_scatter_int(linear_age_rating_dataset, "movie_rated", show_graphs, "Age Rating", "User Ratings of Age Ratings", "linear")
 render_scatter_int(linear_runtime_dataset, "run_length", show_graphs, "Runtime (Minutes)", "User Ratings of Runtime", "linear")
 render_scatter_int(linear_genres_dataset, "genres", show_graphs, "Genres", "User Ratings of Genres", "linear")
 render_scatter_int(linear_date_dataset, "release_date", show_graphs, "Release Month", "User Ratings of Release Month", "linear")
+render_classification_bar("movie_rated", show_graphs, linear_age_classifier)
+render_classification_bar("run_length", show_graphs, linear_length_classifier)
+render_classification_bar("genres", show_graphs, linear_genre_classifier)
+render_classification_bar("release_date", show_graphs, linear_date_classifier)
 #KNN Heatmaps
 for classifier in knn_classifiers:
     render_heatmap(confusion_to_dataset(classifier.confusion), classifier.dataset_name, show_graphs, "knn")

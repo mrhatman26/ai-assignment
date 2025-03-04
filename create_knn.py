@@ -18,7 +18,12 @@ class KNNCreator():
     expected = None
     wrong = None
     confusion = None
+    report_accuracy = None
+    report_recall = None
+    report_precision = None
+    report_f1 = None
     class_report = None
+    class_report_dict = None
     kfold = None
     kfold_scores = None
     x_train_smote = None
@@ -104,6 +109,9 @@ class KNNCreator():
             self.confusion = confusion_matrix(y_true=self.expected, y_pred=self.predicted)
             print("Done.\nConfusion matrix is:\n" + str(self.confusion) + "\nGenerating classification report...", end="")
             self.class_report = classification_report(self.expected, self.predicted)
+            self.class_report_dict = classification_report(self.expected, self.predicted, output_dict=True)
+            #Get the classification report as a dictionary.
+            #This will be used for graphs.
             print("Done.\nClassification report is:\n" + str(self.class_report))
             print("")
         except Exception as e:
