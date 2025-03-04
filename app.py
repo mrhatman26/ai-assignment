@@ -85,7 +85,34 @@ def predict_validate():
             final_output = final_output / 4
             return str(final_output[0])
         else:
-            pass
+            #Genres model
+            #Modify this as it won't work!
+            #Get closest map to entered genres.
+            genres_map = load_dataset_map("genres", is_static=True)
+            genres_input = input_to_map(model_data["submission_genre"], genres_map)
+            genres_input = np.array(genres_input, dtypes=int)
+            genres_input = genres_input.reshape(1, -1)
+            genres_output = genre_model.predict(X=genres_input)
+            #Age model
+            age_map = load_dataset_map("movie_rated", is_static=True)
+            age_input = input_to_map(model_data["submission_age"].lower(), age_map)
+            age_input = np.array(age_input, dtype=int)
+            age_input = age_input.reshape(1, -1)
+            age_output = age_model.predicy(X=age_input)
+            #Date model
+            date_input = int(model_data["submission_month"]) - 1
+            date_input = np.array(date_input, dtype=int)
+            date_input = date_input.reshape(1, -1)
+            date_output = date_model.predict(X=date_input)
+            #Runtime
+            runtime_input = int(model_data["submission_runtime"])
+            runtime_input = np.array(runtime_input, dtype=int)
+            runtime_input = runtime_input.reshape(1, -1)
+            runtime_output = runtime_model.predict(X=runtime_input)
+            #Average outputs
+            final_output = genres_output + age_output + date_output + runtime_output
+            final_output = final_output / 4
+            return str(final_output[0])
     except:
         return "failed"
     
