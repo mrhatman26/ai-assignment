@@ -83,14 +83,16 @@ def predict_validate():
             #Average outputs
             final_output = genres_output + age_output + date_output + runtime_output
             final_output = final_output / 4
-            return str(final_output[0])
+            return str(round(final_output[0], 2))
         else:
             #Genres model
             #Modify this as it won't work!
             #Get closest map to entered genres.
             genres_map = load_dataset_map("genres", is_static=True)
-            genres_input = input_to_map(model_data["submission_genre"], genres_map)
-            genres_input = np.array(genres_input, dtypes=int)
+            genres_map_bool = load_dataset_map("genres", is_bool=True, is_static=True)
+            genres_input = input_to_map(model_data["submission_genre"], genres_map, is_bool=True)
+            genres_input = get_closest_map(genres_input, genres_map_bool)
+            genres_input = np.array(genres_input, dtype=int)
             genres_input = genres_input.reshape(1, -1)
             genres_output = genre_model.predict(X=genres_input)
             #Age model
@@ -98,7 +100,7 @@ def predict_validate():
             age_input = input_to_map(model_data["submission_age"].lower(), age_map)
             age_input = np.array(age_input, dtype=int)
             age_input = age_input.reshape(1, -1)
-            age_output = age_model.predicy(X=age_input)
+            age_output = age_model.predict(X=age_input)
             #Date model
             date_input = int(model_data["submission_month"]) - 1
             date_input = np.array(date_input, dtype=int)
@@ -112,8 +114,9 @@ def predict_validate():
             #Average outputs
             final_output = genres_output + age_output + date_output + runtime_output
             final_output = final_output / 4
-            return str(final_output[0])
-    except:
+            return str(round(final_output[0], 2))
+    except Exception as e:
+        error_exit(e, skip=True)
         return "failed"
     
 @app.route('/predict/output/output=<output>')

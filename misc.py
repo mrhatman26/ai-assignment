@@ -1,4 +1,4 @@
-import sys, os, platform, traceback, shutil
+import sys, os, platform, traceback, shutil, ast
 import pandas as pd
 from file_paths import *
 
@@ -227,3 +227,34 @@ def input_to_map(actual_data, map_data, is_bool=False):
             if item in map_data:
                 map_list[map_data.index(item)] = 1
         return map_list
+    
+def get_closest_map(actual_data, map_data):
+    print("Converting map list strings to lists...", end="")
+    for i in range(0, len(map_data)):
+        map_data[i] = map_data[i].replace("[", "").replace("]", "")
+        map_data[i] = map_data[i].split(", ")
+        for t in range(0, len(map_data[i])):
+            map_data[i][t] = int(map_data[i][t])
+    print("Done.\nGetting closest map from entered data...", end="")
+    if len(actual_data) == len(map_data[0]):
+        counter_list = create_ditto_list(len(map_data), 0)
+        index = 0
+        for item in map_data:
+            for i in range(0, len(map_data[index])):
+                if actual_data[i] == item[i]:
+                    counter_list[index] += 1
+            index += 1
+        print("Done.\nFinding index with highest match...", end="")
+        highest_index = 0
+        highest_number = 0
+        index = 0
+        for item in counter_list:
+            if item > highest_number:
+                highest_index = index
+                highest_number = item
+            index += 1
+        print("Done.")
+        return highest_index
+    else:
+        print("Failed.")
+        raise Exception("Actual Data is not the same length as map data.")

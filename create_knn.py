@@ -8,7 +8,6 @@ from sklearn.metrics import confusion_matrix #Allows for the creation of a confu
 from sklearn.metrics import classification_report #Allows for the creation of classification report
 from sklearn.model_selection import KFold #Allows for KFold validation
 from sklearn.model_selection import cross_val_score #Allows for evaluation of a score by cross validation
-from sklearn.preprocessing import StandardScaler
 from misc import *
 
 class KNNCreator():
@@ -22,6 +21,8 @@ class KNNCreator():
     class_report = None
     kfold = None
     kfold_scores = None
+    x_train_smote = None
+    y_train_smote = None
     x, y, x_train, y_train, x_test, y_test = None, None, None, None, None, None
     def __init__(self, dataset, dataset_name):
         try:
