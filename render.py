@@ -1,22 +1,25 @@
 import matplotlib.pyplot as plt
 import numpy as np 
 import seaborn
-from setup import clean_normalise_boolean_to_int
 from misc import *
 from file_paths import *
 
 def render_scatter_int(dataset, dataset_name, show_graph, x_label, title, classifier):
+    #Creates a scatter graph from the entered dataset and saves it to the graphs folder in saved_data.
     print("Adding rows to the scattergraph...", end="")
     try:
         for i in range(0, len(dataset)):
+            #For every row of the dataset, add the current row's rating and dataset_name values to the scattergraph.
             x = np.array(dataset[dataset_name][i])
             y = np.array(dataset["rating"][i])
             plt.scatter(x, y)
-        plt.title(title)
-        plt.xlabel(x_label)
-        plt.ylabel("User Rating (0-10)")
+        plt.title(title) #Title the graph.
+        plt.xlabel(x_label) #Set the X axis' title.
+        plt.ylabel("User Rating (0-10)") #Set the Y axis' title.
+        #If the user asked to see the graph, it will be shown to them, if not, it is skipped.
         if show_graph is True:
             plt.show()
+        #Save the graph to the saved_data graphs directory with the name of its classifer followed by "_integer_", it's dataset name and then finally ".png".
         plt.savefig(saved_graphs_dir + classifier + "_integer_" + dataset_name + ".png")
         plt.close()
         print("Done.")
@@ -24,6 +27,7 @@ def render_scatter_int(dataset, dataset_name, show_graph, x_label, title, classi
         error_exit(e)
 
 def render_scatter_bool(dataset, dataset_name, show_graph, x_label, title, classifier, show_legend=True):
+    #The same as the last function, but it takes boolean values rather than integers.
     try:
         map_file = load_dataset_map(dataset_name, True)
         map_file_original = load_dataset_map(dataset_name)
@@ -59,6 +63,7 @@ def render_scatter_bool(dataset, dataset_name, show_graph, x_label, title, class
         error_exit(e)
 
 def render_heatmap(dataset, dataset_name, show_graph, classifier):
+    #Generates a heatmap of dataset using the seaborn library.
     try:
         print("Creating a heatmap from " + dataset_name + "...", end="")
         heatmap = seaborn.heatmap(dataset, annot=True, cmap='nipy_spectral_r')
@@ -71,6 +76,7 @@ def render_heatmap(dataset, dataset_name, show_graph, classifier):
         error_exit(e)
 
 def render_classification_bar(dataset_name, show_graph, classifier):
+    #Generates a bar chart of the classifcation report from teh classifier.
     try:
         print("Creating a bar chart for the " + dataset_name + " model's classification report...", end="")
         for key, value in classifier.class_report_dict.items():
@@ -79,7 +85,7 @@ def render_classification_bar(dataset_name, show_graph, classifier):
                     if "support" not in alt_key:
                         plt.bar(alt_key, alt_value, 0.2, label=alt_key.title())
             else:
-                pass#plt.bar("Accuracy", value, 0.2, label="Accuracy")
+                pass
             plt.legend()
             plt.xlabel("Stats")
             plt.ylabel("Score")
