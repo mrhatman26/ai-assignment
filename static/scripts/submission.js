@@ -1,5 +1,6 @@
 console.log("submission.js loaded");
 let form = document.getElementById("submission_form");
+let error_message = null;
 //Get the form used in submit.html.
 //Then, using the form, get the HTML elements needed from the form.
 let submit_button = form[7];
@@ -74,14 +75,24 @@ function toInt(value){
     }
 }
 
+function removeError(){
+    //Remove the error message if it already exists.
+    if (error_message != null){
+        //document.remove(error_message);
+        error_message.remove();
+        error_message = null;
+    }
+}
+
 //Submit function
 function submit_data(event){
     //Takes the entered data, confirms nothing is missing and that the minutes are a number, then
     //sends this data to Python Flask using the POST method on the "/predict/validate/" URL.
     event.preventDefault();
+    removeError();
     if (selected_genres_array.length < 1){
         //If the user has not selected at least one genre, show an error.
-        var error_message = document.createElement("p");
+        error_message = document.createElement("p");
         error_message.innerHTML = "Please select atleast one genre.";
         error_message.style.color = "red";
         document.getElementById("page_header").appendChild(error_message).scrollTo();
@@ -89,7 +100,7 @@ function submit_data(event){
     }
     if (runtime_select.value == ""){
         //If no runtime value has been entered, show an error.
-        var error_message = document.createElement("p");
+        error_message = document.createElement("p");
         error_message.innerHTML = "Please enter a runtime.";
         error_message.style.color = "red";
         document.getElementById("page_header").appendChild(error_message).scrollTo();
@@ -97,14 +108,14 @@ function submit_data(event){
     }
     if (toInt(runtime_select.value) === null){
         //If the runtime value cannot be converted into an intger, show an error.
-        var error_message = document.createElement("p");
+        error_message = document.createElement("p");
         error_message.innerHTML = "Runtime must be a whole number.";
         error_message.style.color = "red";
         document.getElementById("page_header").appendChild(error_message).scrollTo();
         return;
     }
     if (toInt(runtime_select.value) < 1){
-        var error_message = document.createElement("p");
+        error_message = document.createElement("p");
         error_message.innerHTML = "Runtime must be a valid number.";
         error_message.style.color = "red";
         document.getElementById("page_header").appendChild(error_message).scrollTo();
@@ -125,7 +136,7 @@ function submit_data(event){
         data: JSON.stringify(submission_data),
         error: function(){
             //If not response is given in 10 seconds, show an error message.
-            var error_message = document.createElement("p");
+            error_message = document.createElement("p");
             error_message.innerHTML = "The server took too long to respond. \nPlease try again.";
             error_message.style.color = "red";
             document.getElementById("page_header").appendChild(error_message).scrollTo();
@@ -134,7 +145,7 @@ function submit_data(event){
             //Upon response.
             if (response === "failed"){
                 //If the response is "failed", show an error message.
-                var error_message = document.createElement("p");
+                error_message = document.createElement("p");
                 error_message.innerHTML = "An error occurred when predicting your movie's user rating.\nPlease try again.";
                 error_message.style.color = "red";
                 document.getElementById("page_header").appendChild(error_message).scrollTo();
