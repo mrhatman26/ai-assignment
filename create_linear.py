@@ -50,6 +50,7 @@ class LinearCreator():
             error_exit(e)
 
     def linear_init(self):
+        #Creates an instance of LinearRegression and trains it with the data.
         try:
             print("Training " + self.dataset_name + " with Linear Regression...", end="")
             self.linear = LinearRegression()

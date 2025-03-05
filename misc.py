@@ -144,6 +144,9 @@ def check_and_move_maps():
     print("Done.")
 
 def ask_question(message):
+    #Asks the user a question and loops until the enter "Yes", "Y", "No" or "N".
+    #The user entering "Yes" or "Y" will return True.
+    #The user entering "No" or "N" will return False.
     while True:
         print(message)
         answer = input("Yes/No (Y/N): ").upper()
@@ -157,6 +160,10 @@ def ask_question(message):
             print("\n")
 
 def load_dataset_map(dataset_name, is_bool=False, is_static=False):
+    #Loads a dataset map from either the static directory or the saved_data directory.
+    #If is_bool is True, the boolean map will be loaded instead.
+    #If the map file is found, it is read and converted to a list which is then returned.
+    #If the map files is not found, None is returned instead.
     try:
         if is_bool is False:
             if is_static is False:
@@ -181,6 +188,8 @@ def load_dataset_map(dataset_name, is_bool=False, is_static=False):
         return None
     
 def get_model_path(dataset_name, model="knn", is_static=False):
+    #Gets the path of the dataset's model from either the static directory or the saved_data directory.
+    #If the model is KNN, it gets the KNN model, else it gets the linear regression model instead.
     try:
         print("Getting model path...", end="")
         if is_static is False:
@@ -200,6 +209,8 @@ def get_model_path(dataset_name, model="knn", is_static=False):
         return None
     
 def check_list_bool(list_val):
+    #Checks a list to make sure all of it's values are boolean.
+    #Returns True if they all are or False if they aren't.
     is_bool = True
     for item in list_val:
         try:
@@ -210,14 +221,19 @@ def check_list_bool(list_val):
     return is_bool
     
 def str_to_list(str_val): #Becase ast literal_eval doesn't damn well work.
+    #Converts an string representation of a list into a list.
     str_val = str_val.replace("[", "").replace("]", "")
     str_val = str_val.split(", ")
     return str_val
 
 def confusion_to_dataset(confusion_matrix):
+    #Converts a confusion matrix into a pandas dataframe.
     return pd.DataFrame(confusion_matrix, index=range(0, len(confusion_matrix)), columns=range(0, len(confusion_matrix)))
 
 def input_to_map(actual_data, map_data, is_bool=False):
+    #Converts the actual data into a mapped value:
+    #If is_bool is false, the index of actual_data as it appears in map data is returned.
+    #Else, actual data is converted into a binary list to represent the mapped values and the binary list is returned.
     if is_bool is False:
         return map_data.index(actual_data)
     else:
@@ -229,6 +245,8 @@ def input_to_map(actual_data, map_data, is_bool=False):
         return map_list
     
 def get_closest_map(actual_data, map_data):
+    #Attempts to find the most similar mapped value to the entered data.
+    #This is only used for linear regression.
     print("Converting map list strings to lists...", end="")
     for i in range(0, len(map_data)):
         map_data[i] = map_data[i].replace("[", "").replace("]", "")
