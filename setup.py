@@ -52,6 +52,7 @@ def clean_normalise_boolean_to_int(dataset, column_name):
             print("'" + str(item) + "'")
     except Exception as e:
         error_exit(e)
+    #Then save the unique values to the rows that contain them.
     try:
         print("Saving unique index numbers to rows...", end="")
         y = 0
@@ -62,12 +63,14 @@ def clean_normalise_boolean_to_int(dataset, column_name):
         print("Done.")
     except Exception as e:
         error_exit(e)
+    #Then save the dataset to a new .csv file.
     try:
         print("Saving modified dataset...", end="")
         dataset.to_csv(saved_data_dir + "Movie Dataset (Boolean to Integer Normalisation of " + column_name + ").csv", sep=",")
         print("Done.")
     except Exception as e:
         error_exit(e)
+    #And finally, save the map list.
     try:
         print("Saving unique value list to file...", end="")
         unique_vals_file = open(saved_maps_dir + column_name + "_unique_vals_int_to_bool.txt", "w")
@@ -104,6 +107,7 @@ def clean_normalise_boolean(dataset, column_name, split_type=None):
     except Exception as e:
         error_exit(e)
     #Loop 2
+    #Then, convert the rows to boolean lists.
     try:
         y = 0
         for row in dataset[column_name]:
@@ -126,12 +130,14 @@ def clean_normalise_boolean(dataset, column_name, split_type=None):
         print("Done.")
     except Exception as e:
         error_exit(e)
+    #Then save the dataset to a new .csv file.
     try:
         print("Saving modified dataset...", end="")
         dataset.to_csv(saved_data_dir + "Movie Dataset (Normalise " + column_name + ").csv", sep=",")
         print("Done.")
     except Exception as e:
         print("Failed.")
+    #And save the map list.
     try:
         print("Saving unique value list to file...", end="")
         unique_vals_file = open(saved_maps_dir + column_name + "_unique_vals.txt", "w")
