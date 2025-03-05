@@ -5,7 +5,7 @@ from setup import clean_normalise_boolean_to_int
 from misc import *
 from file_paths import *
 
-def render_scatter_int(dataset, dataset_name, show_graph, xlabel, title, classifier):
+def render_scatter_int(dataset, dataset_name, show_graph, x_label, title, classifier):
     print("Adding rows to the scattergraph...", end="")
     try:
         for i in range(0, len(dataset)):
@@ -13,7 +13,7 @@ def render_scatter_int(dataset, dataset_name, show_graph, xlabel, title, classif
             y = np.array(dataset["rating"][i])
             plt.scatter(x, y)
         plt.title(title)
-        plt.xlabel(xlabel)
+        plt.xlabel(x_label)
         plt.ylabel("User Rating (0-10)")
         if show_graph is True:
             plt.show()
@@ -23,13 +23,13 @@ def render_scatter_int(dataset, dataset_name, show_graph, xlabel, title, classif
     except Exception as e:
         error_exit(e)
 
-def render_scatter_bool(dataset, dataset_name, show_graph, xlabel, title, classifier, show_legend=True):
+def render_scatter_bool(dataset, dataset_name, show_graph, x_label, title, classifier, show_legend=True):
     try:
         map_file = load_dataset_map(dataset_name, True)
         map_file_original = load_dataset_map(dataset_name)
         print("Plotting " + dataset_name + " boolean values on scatter graph...", end="")
         plt.title(title)
-        plt.xlabel(xlabel)
+        plt.xlabel(x_label)
         plt.ylabel("User Rating (0-10)")
         gca = plt.gca()
         pattern = 1
@@ -73,15 +73,20 @@ def render_heatmap(dataset, dataset_name, show_graph, classifier):
 def render_classification_bar(dataset_name, show_graph, classifier):
     try:
         print("Creating a bar chart for the " + dataset_name + " model's classification report...", end="")
-        plt.bar([len(classifier.confusion_accuracy)], classifier.confusion_accuracy, 0.2, label="Accuracy")
-        plt.bar([len(classifier.confusion_recall)], classifier.confusion_recall, 0.2, label="Recall")
-        plt.bar([len(classifier.confusion_precision)], classifier.confusion_precision, 0.2, label="Precision")
-        plt.bar([len(classifier.confusion_f1)], classifier.confusion_f1, 0.2, label="F1 Score")
-        plt.ylabel = "Score"
-        if show_graph is True:
-            plt.show()
-        plt.savefig(saved_graphs_dir + dataset_name + "_bar.png")
-        plt.close()
+        for key, value in classifier.class_report_dict.items():
+            if "accuracy" not in key:
+                for alt_key, alt_value in value.items():
+                    if "support" not in alt_key:
+                        plt.bar(alt_key, alt_value, 0.2, label=alt_key.title())
+            else:
+                pass#plt.bar("Accuracy", value, 0.2, label="Accuracy")
+            plt.legend()
+            plt.xlabel("Stats")
+            plt.ylabel("Score")
+            if show_graph is True:
+                plt.show()
+            plt.savefig(saved_graphs_dir + dataset_name + "_bar_" + str(key) + ".png")
+            plt.close()
         print("Done.")
     except Exception as e:
         error_exit(e)

@@ -18,10 +18,6 @@ class KNNCreator():
     expected = None
     wrong = None
     confusion = None
-    report_accuracy = None
-    report_recall = None
-    report_precision = None
-    report_f1 = None
     class_report = None
     class_report_dict = None
     kfold = None
