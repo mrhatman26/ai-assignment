@@ -69,10 +69,10 @@ render_scatter_int(knn_runtime_dataset, "run_length", show_graphs, "Runtime (Min
 render_scatter_bool(knn_genres_dataset, "genres", show_graphs, "Genres", "User Ratings of Genres", "knn", False)
 render_scatter_int(knn_date_dataset, "release_date", show_graphs, "Release Month", "User Ratings of Release Month", "knn")
 #Render bar charts of the knn classification reports
-render_classification_bar("movie_rated", show_graphs, knn_age_classifier)
-render_classification_bar("run_length", show_graphs, knn_length_classifier)
-render_classification_bar("genres", show_graphs, knn_genre_classifier)
-render_classification_bar("release_date", show_graphs, knn_date_classifier)
+render_classification_bar("movie_rated", show_graphs, knn_age_classifier, "knn")
+render_classification_bar("run_length", show_graphs, knn_length_classifier, "knn")
+render_classification_bar("genres", show_graphs, knn_genre_classifier, "knn")
+render_classification_bar("release_date", show_graphs, knn_date_classifier, "knn")
 #Linear
 #Render scatter graphs of the linear data
 render_scatter_int(linear_age_rating_dataset, "movie_rated", show_graphs, "Age Rating", "User Ratings of Age Ratings", "linear")
@@ -80,17 +80,17 @@ render_scatter_int(linear_runtime_dataset, "run_length", show_graphs, "Runtime (
 render_scatter_int(linear_genres_dataset, "genres", show_graphs, "Genres", "User Ratings of Genres", "linear")
 render_scatter_int(linear_date_dataset, "release_date", show_graphs, "Release Month", "User Ratings of Release Month", "linear")
 #Render bar charts of the linear classification reports
-render_classification_bar("movie_rated", show_graphs, linear_age_classifier)
-render_classification_bar("run_length", show_graphs, linear_length_classifier)
-render_classification_bar("genres", show_graphs, linear_genre_classifier)
-render_classification_bar("release_date", show_graphs, linear_date_classifier)
+render_classification_bar("movie_rated", show_graphs, linear_age_classifier, "linear")
+render_classification_bar("run_length", show_graphs, linear_length_classifier, "linear")
+render_classification_bar("genres", show_graphs, linear_genre_classifier, "linear")
+render_classification_bar("release_date", show_graphs, linear_date_classifier, "linear")
 #KNN Heatmaps
 #Generate heatmaps from the knn confusion matrixes
 for classifier in knn_classifiers:
-    render_heatmap(confusion_to_dataset(classifier.confusion), classifier.dataset_name, show_graphs, "knn")
+    render_heatmap(classifier, classifier.dataset_name, show_graphs, "knn")
 #Linear Heatmaps
 #Generate heatmaps from the linear confusion matrixes
 for classifier in linear_classifiers:
-    render_heatmap(confusion_to_dataset(classifier.confusion), classifier.dataset_name, show_graphs, "linear")
+    render_heatmap(classifier, classifier.dataset_name, show_graphs, "linear")
 print("\n**Model Generation Finished**")
 pause(True)

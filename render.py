@@ -62,11 +62,11 @@ def render_scatter_bool(dataset, dataset_name, show_graph, x_label, title, class
     except Exception as e:
         error_exit(e)
 
-def render_heatmap(dataset, dataset_name, show_graph, classifier):
+def render_heatmap(model, dataset_name, show_graph, classifier):
     #Generates a heatmap of dataset using the seaborn library.
     try:
         print("Creating a heatmap from " + dataset_name + "...", end="")
-        heatmap = seaborn.heatmap(dataset, annot=True, cmap='nipy_spectral_r')
+        heatmap = seaborn.heatmap(model.confusion, annot=True, cmap='nipy_spectral_r')
         if show_graph is True:
             heatmap.figure.show()
         heatmap.figure.savefig(saved_graphs_dir + classifier + "_heatmap_" + dataset_name + ".png")
@@ -75,7 +75,7 @@ def render_heatmap(dataset, dataset_name, show_graph, classifier):
     except Exception as e:
         error_exit(e)
 
-def render_classification_bar(dataset_name, show_graph, classifier):
+def render_classification_bar(dataset_name, show_graph, classifier, classifer_name):
     #Generates a bar chart of the classifcation report from teh classifier.
     try:
         print("Creating a bar chart for the " + dataset_name + " model's classification report...", end="")
@@ -91,7 +91,7 @@ def render_classification_bar(dataset_name, show_graph, classifier):
             plt.ylabel("Score")
             if show_graph is True:
                 plt.show()
-            plt.savefig(saved_graphs_dir + dataset_name + "_bar_" + str(key) + ".png")
+            plt.savefig(saved_graphs_dir + classifer_name + "_" + dataset_name + "_bar_" + str(key) + ".png")
             plt.close()
         print("Done.")
     except Exception as e:

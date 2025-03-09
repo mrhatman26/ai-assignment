@@ -6,8 +6,6 @@ from sklearn.model_selection import train_test_split #Importing of the required 
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import confusion_matrix #Allows for the creation of a confusion matrix
 from sklearn.metrics import classification_report #Allows for the creation of classification report
-from sklearn.model_selection import KFold #Allows for KFold validation
-from sklearn.model_selection import cross_val_score #Allows for evaluation of a score by cross validation
 from misc import * 
 
 class LinearCreator():
@@ -69,7 +67,7 @@ class LinearCreator():
         #Generats a grid that is a visual representation of how accurate the model.
         try:
             print("Creating confusion matrix...", end="")
-            self.confusion = confusion_matrix(y_true=self.expected, y_pred=self.predicted)
+            self.confusion = confusion_matrix(y_true=self.expected, y_pred=self.predicted, labels=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
             print("Done.\nConfusion matrix is:\n" + str(self.confusion) + "\nGenerating classification report...", end="")
             self.class_report = classification_report(self.expected, self.predicted)
             self.class_report_dict = classification_report(self.expected, self.predicted, output_dict=True)

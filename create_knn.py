@@ -102,7 +102,7 @@ class KNNCreator():
         #Generats a grid that is a visual representation of how accurate the model.
         try:
             print("Creating confusion matrix...", end="")
-            self.confusion = confusion_matrix(y_true=self.expected, y_pred=self.predicted)
+            self.confusion = confusion_matrix(y_true=self.expected, y_pred=self.predicted, labels=[0, 1, 2, 3, 4, 5, 6, 7, 8, 9])
             print("Done.\nConfusion matrix is:\n" + str(self.confusion) + "\nGenerating classification report...", end="")
             self.class_report = classification_report(self.expected, self.predicted)
             self.class_report_dict = classification_report(self.expected, self.predicted, output_dict=True)
